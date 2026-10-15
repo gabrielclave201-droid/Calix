@@ -166,6 +166,48 @@ button.rb{flex:none;padding:6px 11px;font-size:12px;border-radius:99px;backgroun
 .rc .g b i{font:500 13px var(--sans);color:var(--mut);font-style:normal;margin-left:3px}
 .rc .g span{color:var(--mut);font-size:12px}
 .rc .m{margin:10px 0 0;color:var(--mut);font-size:13px}
+
+/* ---- progression + déverrouillage ---- */
+.tab{font-size:13.5px;padding:11px 4px}
+.pr h2{font:italic 800 30px var(--disp);margin:0}
+.pr .sub{color:var(--mut);font-size:14px;margin:4px 0 14px;line-height:1.4}
+.fam{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 14px 6px;margin:12px 0}
+.fam h3{margin:0 0 6px;font:italic 800 24px var(--disp);display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.fam h3 small{font:500 12px var(--sans);color:var(--mut)}
+.st{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-top:1px solid var(--line)}
+.st>div{flex:1;min-width:0}
+.st .ic{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-size:16px;border:1.5px solid var(--line);background:#ffffff0d;color:var(--mut)}
+.st.done .ic{background:#4be3a52b;border-color:#4be3a5aa;color:var(--ok);font-weight:700}
+.st.cur .ic{background:#ffc94d22;border-color:var(--gold);color:var(--gold);box-shadow:0 0 0 4px #ffc94d1f}
+.st.lock{opacity:.55}
+.st b{display:block;font:italic 800 21px var(--disp)}
+.st small{display:block;color:var(--mut);font-size:13px;line-height:1.35}
+.mt{display:grid;grid-template-columns:84px 1fr 54px;gap:8px;align-items:center;font-size:12px;color:var(--mut);margin-top:8px}
+.mt em{font-style:normal;text-align:right;color:var(--fg)}
+.meter{height:6px;border-radius:9px;background:#ffffff1a;overflow:hidden}
+.meter i{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,var(--ac),var(--gold))}
+.st .gofig2{flex:none;width:auto;margin-top:10px;padding:9px 16px;font-size:13px}
+.unl{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:24px;background:radial-gradient(600px 420px at 50% 38%,#3a2a8fcc,#05081cf5);backdrop-filter:blur(6px);animation:unlf .3s both}
+.unl-in{position:relative;text-align:center;max-width:380px;width:100%}
+.lockw{position:relative;width:150px;height:175px;margin:0 auto 6px;animation:lkglow 1s 1s both}
+.lockw svg{position:relative;width:100%;height:100%;overflow:visible}
+.lk{animation:lkshake .55s .25s both}
+.shk{transform-origin:84px 62px;stroke:#cfd5ff;animation:lkopen .9s .95s cubic-bezier(.3,1.35,.5,1) both}
+.lkb{fill:#7d86c4;animation:lkfill .4s 1s both}
+.rays{position:absolute;left:50%;top:56%;width:0;height:0}
+.ray{position:absolute;left:-2px;top:-23px;width:4px;height:46px;border-radius:4px;background:linear-gradient(var(--gold),transparent);opacity:0;animation:unlray .9s 1.05s ease-out both}
+.unl .k{letter-spacing:.18em;text-transform:uppercase;font-size:12px;color:var(--ok);margin:0;animation:unlup .5s 1.25s both}
+.unl h2{font:italic 800 clamp(34px,10vw,50px)/1 var(--disp);color:var(--gold);margin:8px 0 8px;text-shadow:0 0 34px #ffc94d66;animation:unlup .6s 1.4s both}
+.unl p.d{color:var(--mut);font-size:15px;line-height:1.45;margin:0 0 18px;animation:unlup .6s 1.6s both}
+.unl .row{animation:unlup .6s 1.8s both}
+@keyframes unlf{from{opacity:0}to{opacity:1}}
+@keyframes unlup{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes lkshake{0%,100%{transform:rotate(0)}20%{transform:rotate(-7deg)}40%{transform:rotate(6deg)}60%{transform:rotate(-4deg)}80%{transform:rotate(3deg)}}
+@keyframes lkopen{0%{transform:none}45%{transform:translateY(-18px)}100%{transform:translateY(-18px) rotate(-40deg);stroke:#ffc94d}}
+@keyframes lkfill{from{fill:#7d86c4}to{fill:#ffc94d}}
+@keyframes lkglow{from{filter:drop-shadow(0 0 0 #ffc94d00)}to{filter:drop-shadow(0 0 24px #ffc94dcc)}}
+@keyframes unlray{0%{opacity:0;transform:rotate(var(--a)) translateY(-20px) scaleY(.3)}30%{opacity:1}100%{opacity:0;transform:rotate(var(--a)) translateY(-120px) scaleY(1)}}
+@media (prefers-reduced-motion:reduce){.unl,.unl *{animation:none!important}.shk{transform:translateY(-18px) rotate(-40deg);stroke:#ffc94d}.lkb{fill:#ffc94d}.ray{display:none}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5.1675469404/pose.js"></script>
 </head>
@@ -186,8 +228,9 @@ button.rb{flex:none;padding:6px 11px;font-size:12px;border-radius:99px;backgroun
 <div id="hl"></div></section>
 <section id="pgR" hidden><h3 style="margin-top:0">Mes records</h3><div id="stats"></div></section>
 <section id="pgS" hidden><div id="prog" class="pg"></div></section>
+<section id="pgP" hidden><div id="pgrog" class="pr"></div></section>
 </div>
-<nav class="tabs" aria-label="Navigation"><div><button class="tab on" data-p="analyse">Analyse</button><button class="tab" data-p="seances">Séances</button><button class="tab" data-p="stats">Stats</button></div></nav>
+<nav class="tabs" aria-label="Navigation"><div><button class="tab on" data-p="analyse">Analyse</button><button class="tab" data-p="seances">Séances</button><button class="tab" data-p="progression">Progression</button><button class="tab" data-p="stats">Stats</button></div></nav>
 <div class="ob" id="ob" hidden role="dialog" aria-modal="true" aria-label="Questionnaire de Volt"><div class="ob-in" id="obin"></div></div>
 <script>
 const $=s=>document.querySelector(s);
@@ -219,6 +262,8 @@ const GATE={vs:M=>M.G>-.6,hl:M=>M.G>-.6,pl:M=>M.B<50,pll:M=>M.B<50,fl:M=>M.B<50,
 const NAME=Object.fromEntries(FIGS.map(f=>[f[0],f[1]]));
 
 const LOCK=60,KEEP=45,CONFIRM=.6,GRACE=.8,MIN_HOLD=1;
+/* déblocage de l'étape suivante : tenir UNL_SEC secondes avec une note d'au moins UNL_SCORE/100 */
+const UNL_SEC=20,UNL_SCORE=90;
 let pose=null,running=false,busy=false,stream=null,flip=true;
 let ema={},cand=null,act=null,lastT=0;
 const now=()=>stream?performance.now()/1000:v.currentTime;
@@ -280,13 +325,15 @@ function finish(){
   $('#n').textContent=avg;$('#bf').style.width=avg+'%';
   renderList(S[0].p.map((p0,i)=>({...p0,val:S.reduce((t,q)=>t+q.p[i].val,0)/S.length,f:S.reduce((t,q)=>t+q.p[i].f,0)/S.length})));
   const up=addRec(a.id,avg,peak,+dur.toFixed(1),Date.now());try{localStorage.setItem('fd_rec',JSON.stringify(REC))}catch(e){}
+  const win=bestWin(S,UNL_SEC),un=progCheck(a.id,win),pl=progLine(a.id,win,dur,un);
   const badge=up.note&&up.hold?'Nouveau record : note et durée !':up.note?'Nouveau record de note !':up.hold?'Nouveau record de durée !':'';
   const verdict=avg>=85?'Très belle exécution.':avg>=70?'Solide, quelques détails à affiner.':avg>=50?'Figure reconnue, mais encore loin de la cible.':'Position approximative, continue à travailler la forme.';
   $('#res').hidden=false;
-  $('#res').innerHTML=`<h2>${NAME[a.id]}</h2><div class="big">${avg}<small> / 100 de moyenne</small></div><p>${verdict}</p>${badge?`<p><b>🏆 ${badge}</b></p>`:''}<p>Tenue ${dur.toFixed(1)} s · meilleure note ${peak}</p>${worst&&worst.l>3?`<p><b>Point à corriger : ${worst.n}.</b> ${worst.tip}</p>`:''}`;
+  $('#res').innerHTML=`<h2>${NAME[a.id]}</h2><div class="big">${avg}<small> / 100 de moyenne</small></div><p>${verdict}</p>${badge?`<p><b>🏆 ${badge}</b></p>`:''}<p>Tenue ${dur.toFixed(1)} s · meilleure note ${peak}</p>${pl}${worst&&worst.l>3?`<p><b>Point à corriger : ${worst.n}.</b> ${worst.tip}</p>`:''}`;
   HIST.unshift({d:Date.now(),f:a.id,avg,peak,dur:+dur.toFixed(1)});HIST=HIST.slice(0,30);
   try{localStorage.setItem('fd_hist',JSON.stringify(HIST))}catch(e){}
   renderHist();status('Figure terminée. Reprends une position pour une nouvelle analyse.');
+  if(un)setTimeout(()=>showUnlock(un),900);
 }
 
 let HIST=[];try{HIST=JSON.parse(localStorage.getItem('fd_hist')||'[]')}catch(e){HIST=[]}
@@ -368,6 +415,7 @@ const LS={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return 
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const TIGER='<svg viewBox="0 0 120 120" aria-hidden="true"><path d="M72 4L16 70H50L38 116L106 40H70L92 4Z" fill="#ffd23f" stroke="#2b1408" stroke-width="4" stroke-linejoin="round"/><path d="M70 12L30 62" stroke="#fff4b8" stroke-width="5" stroke-linecap="round" opacity=".7"/><circle cx="46" cy="50" r="7.5" fill="#fff"/><circle cx="71" cy="50" r="7.5" fill="#fff"/><circle cx="47.5" cy="51" r="3.6" fill="#2b1408"/><circle cx="72.5" cy="51" r="3.6" fill="#2b1408"/><circle cx="48.8" cy="49.6" r="1.2" fill="#fff"/><circle cx="73.8" cy="49.6" r="1.2" fill="#fff"/><path d="M47 62Q58 76 69 62Z" fill="#2b1408" stroke="#2b1408" stroke-width="2" stroke-linejoin="round"/><path d="M52 66Q58 71 64 66Q58 64 52 66Z" fill="#ff6a7a"/></svg>';
 const tig=c=>TIGER.replace('<svg ','<svg class="'+c+'" ');
+let ADV=LS.get('fd_adv')||{},WIN=LS.get('fd_win')||{};
 let PROF=LS.get('fd_prof'),ans={},SESS=null,CHK=LS.get('fd_chk')||{},JUST=null,RT=null,PG=null;
 
 const QS=[
@@ -393,7 +441,7 @@ function step(i){
  const links=`${i>0&&q?'<button class="skip" id="obback">Retour</button>':''}<button class="skip" id="obskip">Plus tard</button>`;
  if(!q){
   box.innerHTML=`${tig('tiger hop')}<div class="bubble">Et voilà ${esc(ans.name)} ! Ton programme est prêt. Tu peux me retrouver en haut à droite pour le revoir ou le refaire.</div>${dots}<button class="go" id="obgo" style="margin-top:14px">Voir mon programme</button>`;
-  $('#obgo').onclick=()=>{PROF=ans;LS.set('fd_prof',PROF);SESS=null;CHK={};LS.set('fd_chk',CHK);closeOb();renderProg();go('seances')};
+  $('#obgo').onclick=()=>{PROF=ans;LS.set('fd_prof',PROF);ADV={};LS.set('fd_adv',ADV);SESS=null;CHK={};LS.set('fd_chk',CHK);closeOb();renderProg();go('seances')};
   $('#obgo').focus();return;
  }
  const say=q.say(ans);
@@ -525,7 +573,7 @@ function genProgram(p){
  });
  const notes=['Garde au moins un jour de repos entre deux séances de figure.'];
  if(GI.length>1)notes.push('Plusieurs figures : commence par la plus difficile quand tu es frais, puis enchaîne avec les autres.');
- GI.forEach(g=>{if(g.next)notes.push(`Quand tu tiens ${NAME[g.cur]} 10 s avec une note moyenne de 85/100 dans l'analyse, passe à ${NAME[g.next]}.`)});
+ GI.forEach(g=>{if(g.next)notes.push(`Pour débloquer ${NAME[g.next]} : tiens ${NAME[g.cur]} ${UNL_SEC} s avec ${UNL_SCORE}/100 ou plus à l'analyse (page Progression).`)});
  notes.push("Les répétitions sont calculées d'après tes maximums : refais le questionnaire quand tu progresses.");
  if(hurt('poignets'))notes.push('Poignets sensibles : augmente la charge très progressivement.');
  if(hurt('epaules'))notes.push('Épaules sensibles : le volume est réduit et les mouvements au-dessus de la tête sont retirés.');
@@ -628,14 +676,15 @@ function weekInfo(P){
  return{log,set,done:P.sessions.filter((_,i)=>set.has(i)).length,nx:P.sessions.findIndex((_,i)=>!set.has(i))};
 }
 function go(p){
- const sn=p==='seances',st=p==='stats';
+ const sn=p==='seances',st=p==='stats',pr=p==='progression';
  if(p!=='analyse'){try{stopAll()}catch(e){}}
  if(!sn)clearRest();
- $('#pgA').hidden=sn||st;$('#pgS').hidden=!sn;$('#pgR').hidden=!st;
+ $('#pgA').hidden=sn||st||pr;$('#pgS').hidden=!sn;$('#pgR').hidden=!st;$('#pgP').hidden=!pr;
  document.querySelectorAll('.tab').forEach(b=>{const on=b.dataset.p===p;b.classList.toggle('on',on);b.setAttribute('aria-current',on?'page':'false')});
- try{history.replaceState(null,'',sn?'#seances':st?'#stats':'#analyse')}catch(e){}
+ try{history.replaceState(null,'',sn?'#seances':st?'#stats':pr?'#progression':'#analyse')}catch(e){}
  if(sn)renderProg();
  if(st)renderStats();
+ if(pr)renderProgress();
  window.scrollTo({top:0});
 }
 function fmtT(t){t=Math.round(t);return t>=60?Math.floor(t/60)+' min '+String(t%60).padStart(2,'0')+' s':t+' s'}
@@ -675,7 +724,7 @@ function renderNext(){
 }
 function renderProg(){
  clearRest();
- PG=PROF?genProgram(PROF):null;
+ PG=gen();
  renderNext();
  const el=$('#prog');
  if(!PG){
@@ -696,7 +745,7 @@ function renderSList(P){
  const toast=JUST?`<div class="bubble" style="margin-bottom:14px">Bravo ${esc(PROF.name)} ! ${esc(JUST)} est enregistrée.</div>`:'';JUST=null;
  $('#prog').innerHTML=`${toast}<div class="pghead"><h2>Mes séances</h2><p class="sub">Programme de ${esc(PROF.name)}, ${PROF.days} séances par semaine, environ ${PROF.dur} min.</p></div>
  ${P.curs.map(c=>`<div class="goal"><div><span style="color:var(--mut);font-size:13px">Figure du moment${P.curs.length>1?' · '+DN[c.d]:''}</span><br><b>${NAME[c.cur]}</b></div><button class="gofig" data-f="${c.cur}">Analyser</button></div>`).join('')}
- ${profLine(PROF)?`<p class="note" style="margin:6px 2px 0">${esc(profLine(PROF))}</p>`:''}
+ ${profLine(effProf(PROF))?`<p class="note" style="margin:6px 2px 0">${esc(profLine(effProf(PROF)))}</p>`:''}
  <div class="wkc"><b>${w.done}/${n}</b> <span style="color:var(--mut);font-size:14px">séances cette semaine</span><div class="wk">${P.sessions.map((_,i)=>`<i class="${w.set.has(i)?'on':''}"></i>`).join('')}</div></div>
  ${P.sessions.map((s,i)=>`<button class="sc${w.set.has(i)?' done':''}${i===w.nx?' next':''}" data-s="${i}"><span><b>${s.name}</b><small>${esc(s.focus)} · ${nEx(s)} exercices</small></span><span class="stt">${w.set.has(i)?'Faite':i===w.nx?'Prochaine':'À faire'}</span></button>`).join('')}
  ${P.notes.map(t=>`<p class="note">${esc(t)}</p>`).join('')}
@@ -726,13 +775,99 @@ function finishSession(){
  delete CHK[SESS];LS.set('fd_chk',CHK);JUST=s.name;SESS=null;
  renderProg();window.scrollTo({top:0});
 }
+
+/* ================= Progression : déblocage des figures ================= */
+const FAM=['planche','fl','sit'],FKEY={planche:'pl',fl:'fl',sit:'ls'};
+const LOCKI='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2.5" fill="currentColor" fill-opacity=".25"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
+/* niveau déclaré dans le questionnaire, puis étapes débloquées en analyse */
+const baseLv=d=>PROF?(PROF[FKEY[d]]??(PROF.level??0)):0;
+const lvl=d=>Math.min(LAD[d].length,baseLv(d)+(ADV[d]||0));
+function effProf(P){const e={...P};FAM.forEach(d=>{e[FKEY[d]]=lvl(d)});return e}
+function gen(){return PROF?genProgram(effProf(PROF)):null}
+function famInfo(id){
+ if(!PROF)return null;
+ for(const d of FAM){const i=LAD[d].indexOf(id);if(i<0)continue;const L=lvl(d),len=LAD[d].length;
+  return i<L?{d,state:'done'}:i===L?{d,state:'cur'}:{d,state:'lock',cur:LAD[d][Math.min(L,len-1)]}}
+ return null;
+}
+/* meilleure moyenne sur une fenêtre d'au moins sec secondes */
+function bestWin(S,sec){
+ const n=S.length;if(n<2||S[n-1].t-S[0].t<sec)return null;
+ const P=[0];S.forEach(q=>P.push(P[P.length-1]+q.s));
+ let best=0,j=0;
+ for(let i=0;i<n;i++){
+  while(j+1<=i&&S[i].t-S[j+1].t>=sec)j++;
+  if(S[i].t-S[j].t>=sec)best=Math.max(best,(P[i+1]-P[j])/(i-j+1));
+ }
+ return best;
+}
+function progCheck(id,win){
+ const f=famInfo(id);
+ if(!f||f.state!=='cur')return null;
+ if(win!=null){WIN[id]=Math.max(WIN[id]||0,Math.round(win));LS.set('fd_win',WIN)}
+ if(win==null||Math.round(win)<UNL_SCORE)return null;
+ const d=f.d;ADV[d]=(ADV[d]||0)+1;LS.set('fd_adv',ADV);
+ const L=lvl(d),len=LAD[d].length;
+ /* les séances sont régénérées avec la nouvelle figure : on repart d'une coche vierge */
+ CHK={};LS.set('fd_chk',CHK);SESS=null;PG=gen();renderNext();
+ return{d,id,next:L<len?LAD[d][L]:null,mastered:L>=len,score:Math.round(win)};
+}
+function progLine(id,win,dur,un){
+ if(un)return un.mastered?`<p><b>🏆 ${NAME[id]} validée : dernière étape de ${DN[un.d]} !</b></p>`:`<p><b>🔓 ${NAME[un.next]} débloquée !</b></p>`;
+ const f=famInfo(id);if(!f)return'';
+ if(f.state==='cur')return`<p>Pour valider cette étape : tiens ${UNL_SEC} s avec ${UNL_SCORE}/100 ou plus. ${win==null?`Ici : ${dur.toFixed(1)} s tenues sur ${UNL_SEC}.`:`Ici : ${Math.round(win)}/100 sur ${UNL_SEC} s.`}</p>`;
+ if(f.state==='lock')return`<p>Figure verrouillée : valide d'abord ${NAME[f.cur]} pour qu'elle compte.</p>`;
+ return'';
+}
+function closeUnlock(){const e=$('#unl');if(e){e.remove();document.body.style.overflow=''}}
+function showUnlock(u){
+ closeUnlock();
+ const rays=Array.from({length:14},(_,i)=>`<i class="ray" style="--a:${Math.round(i*360/14)}deg"></i>`).join('');
+ const el=document.createElement('div');el.id='unl';el.className='unl';
+ el.setAttribute('role','dialog');el.setAttribute('aria-modal','true');el.setAttribute('aria-label','Figure débloquée');
+ const title=u.mastered?NAME[u.id]:NAME[u.next],
+  msg=u.mastered?`Tu as validé ${esc(NAME[u.id])} : c'est la dernière étape de ${esc(DN[u.d])}.`:`Tu as tenu ${esc(NAME[u.id])} ${UNL_SEC} s à ${u.score}/100. Tes séances ${esc(DN[u.d])} sont mises à jour avec ${esc(NAME[u.next])}.`;
+ el.innerHTML=`<div class="unl-in"><div class="lockw"><div class="rays">${rays}</div>
+  <svg class="lk" viewBox="0 0 120 140" aria-hidden="true"><path class="shk" d="M36 66V44a24 24 0 0 1 48 0v22" fill="none" stroke-width="10" stroke-linecap="round"/><rect class="lkb" x="22" y="62" width="76" height="62" rx="14"/><circle cx="60" cy="88" r="8" fill="#0c1230"/><rect x="56" y="92" width="8" height="16" rx="3" fill="#0c1230"/></svg></div>
+  <p class="k">${u.mastered?'Étape finale validée':'Niveau débloqué'}</p><h2>${esc(title)}</h2><p class="d">${msg}</p>
+  <div class="row"><button id="unlgo">Voir ma progression</button><button class="alt" id="unlx">Continuer</button></div></div>`;
+ document.body.appendChild(el);document.body.style.overflow='hidden';
+ try{navigator.vibrate&&navigator.vibrate([80,50,160])}catch(e){}
+ $('#unlx').onclick=closeUnlock;$('#unlgo').onclick=()=>{closeUnlock();go('progression')};
+ setTimeout(()=>{const b=$('#unlgo');if(b)b.focus()},2000);
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeUnlock()});
+function renderProgress(){
+ const el=$('#pgrog');
+ if(!PROF){el.innerHTML=`<h2>Ma progression</h2><div class="c"><b>Pas encore de programme</b><span class="t">Réponds aux questions de Volt pour suivre ta progression.</span></div><div class="row"><button id="prgo">Créer mon programme</button></div>`;$('#prgo').onclick=openOb;return}
+ PG=gen();
+ const goals=new Set(PG?PG.curs.map(c=>c.d):[]);
+ const fams=[...FAM].sort((a,b)=>(goals.has(b)?1:0)-(goals.has(a)?1:0));
+ const card=d=>{
+  const lad=LAD[d],L=lvl(d),B=baseLv(d),len=lad.length;
+  const steps=lad.map((id,i)=>{
+   if(i<L)return`<div class="st done"><span class="ic">✓</span><div><b>${esc(NAME[id])}</b><small>${i<B?'Acquise':'Validée en analyse'}</small></div></div>`;
+   if(i===L){
+    const hold=(REC[id]&&REC[id].hold)||0,w=WIN[id]||0;
+    return`<div class="st cur"><span class="ic">⚡</span><div><b>${esc(NAME[id])}</b><small>En cours : tiens ${UNL_SEC} s à ${UNL_SCORE}/100 ou plus pour débloquer ${i+1<len?esc(NAME[lad[i+1]]):'la maîtrise'}.</small>
+     <div class="mt"><span>Tenue max</span><div class="meter"><i style="width:${Math.min(100,100*hold/UNL_SEC)}%"></i></div><em>${Math.floor(Math.min(hold,UNL_SEC))}/${UNL_SEC} s</em></div>
+     <div class="mt"><span>Note sur ${UNL_SEC} s</span><div class="meter"><i style="width:${Math.min(100,100*w/UNL_SCORE)}%"></i></div><em>${w||'–'}/${UNL_SCORE}</em></div>
+     <button class="gofig2" data-f="${id}">Analyser</button></div></div>`;
+   }
+   return`<div class="st lock"><span class="ic">${LOCKI}</span><div><b>${esc(NAME[id])}</b><small>Verrouillée</small></div></div>`;
+  }).join('');
+  return`<div class="fam"><h3>${DN[d]}<small>${L>=len?'Maîtrisée 🏆':goals.has(d)?L+'/'+len+' validées':'Hors de ton programme'}</small></h3>${steps}</div>`;
+ };
+ el.innerHTML=`<h2>Ma progression</h2><p class="sub">Analyse la figure en cours : si tu la tiens ${UNL_SEC} s avec ${UNL_SCORE}/100 ou plus, l'étape suivante se débloque et tes séances se mettent à jour.</p>${fams.map(card).join('')}`;
+}
+$('#pgrog').onclick=e=>{const b=e.target.closest('.gofig2');if(b)goAnalyse(b.dataset.f)};
 $('#prog').onclick=progClick;
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>go(b.dataset.p));
 $('#tg').innerHTML=TIGER;
 $('#tg').onclick=()=>PROF?go('seances'):openOb();
-if(PROF&&FIGS.some(f=>f[0]===genProgram(PROF).cur)){const c0=genProgram(PROF).cur;$('#sel').value=c0;setHero(null,NAME[c0])}
+if(PROF&&FIGS.some(f=>f[0]===gen().cur)){const c0=gen().cur;$('#sel').value=c0;setHero(null,NAME[c0])}
 renderProg();
-if(location.hash==='#seances')go('seances');else if(location.hash==='#stats')go('stats');
+if(location.hash==='#seances')go('seances');else if(location.hash==='#stats')go('stats');else if(location.hash==='#progression')go('progression');
 if(!PROF&&!LS.get('fd_skip'))openOb();
 if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol))window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 </script>
