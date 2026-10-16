@@ -208,6 +208,29 @@ button.rb{flex:none;padding:6px 11px;font-size:12px;border-radius:99px;backgroun
 @keyframes lkglow{from{filter:drop-shadow(0 0 0 #ffc94d00)}to{filter:drop-shadow(0 0 24px #ffc94dcc)}}
 @keyframes unlray{0%{opacity:0;transform:rotate(var(--a)) translateY(-20px) scaleY(.3)}30%{opacity:1}100%{opacity:0;transform:rotate(var(--a)) translateY(-120px) scaleY(1)}}
 @media (prefers-reduced-motion:reduce){.unl,.unl *{animation:none!important}.shk{transform:translateY(-18px) rotate(-40deg);stroke:#ffc94d}.lkb{fill:#ffc94d}.ray{display:none}}
+
+/* ---- barre du bas en icônes + séances perso ---- */
+.tab{display:flex;align-items:center;justify-content:center;padding:12px 4px}
+.tab svg{width:27px;height:27px;display:block;pointer-events:none}
+.tab.on{color:var(--gold)}
+.ced input[type=text],.ced input[type=number],.ti{width:100%;padding:13px;border-radius:14px;border:1px solid var(--line);background:var(--card);color:var(--fg);font:600 16px var(--sans);box-sizing:border-box}
+.ti{margin:6px 0 4px;font-size:18px}
+.ced{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;margin-top:14px}
+.ced>b{font:italic 800 20px var(--disp)}
+.chp{display:flex;gap:6px;overflow-x:auto;padding:10px 0 6px;scrollbar-width:none}
+.chp::-webkit-scrollbar{display:none}
+.chp button{flex:none;padding:6px 12px;font-size:13px;border-radius:99px;background:var(--card);border:1px solid var(--line);color:var(--fg);box-shadow:none}
+.nr{display:flex;align-items:center;gap:8px;margin:8px 0 12px}
+.nr input{flex:1;min-width:0;text-align:center}
+.nr select{width:auto;margin:0;padding:13px 10px;flex:none}
+.nr span{color:var(--mut);font-weight:700}
+.lbl{color:var(--mut);font-size:12px;margin:2px 2px 0;display:flex;gap:8px}.lbl span{flex:1}
+.addsc{width:100%;flex:none;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:8px}
+.addsc svg{width:18px;height:18px}
+.err{color:#ff8fa8;font-size:13px;margin:8px 2px 0}
+button:disabled{opacity:.35}
+.dx .acts{align-items:center}
+.dx button.sm{min-width:32px;min-height:32px}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5.1675469404/pose.js"></script>
 </head>
@@ -230,7 +253,7 @@ button.rb{flex:none;padding:6px 11px;font-size:12px;border-radius:99px;backgroun
 <section id="pgS" hidden><div id="prog" class="pg"></div></section>
 <section id="pgP" hidden><div id="pgrog" class="pr"></div></section>
 </div>
-<nav class="tabs" aria-label="Navigation"><div><button class="tab on" data-p="analyse">Analyse</button><button class="tab" data-p="seances">Séances</button><button class="tab" data-p="progression">Progression</button><button class="tab" data-p="stats">Stats</button></div></nav>
+<nav class="tabs" aria-label="Navigation"><div><button class="tab on" data-p="analyse" aria-label="Analyse" title="Analyse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M21 21l-5.2-5.2"/></svg></button><button class="tab" data-p="seances" aria-label="Séances" title="Séances"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9.5v5M20.5 9.5v5M6.5 12h11"/></svg></button><button class="tab" data-p="progression" aria-label="Progression" title="Progression"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h5v-5h5v-5h5V5h3"/></svg></button><button class="tab" data-p="stats" aria-label="Stats" title="Stats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V11M12 21V4M19 21v-8"/></svg></button></div></nav>
 <div class="ob" id="ob" hidden role="dialog" aria-modal="true" aria-label="Questionnaire de Volt"><div class="ob-in" id="obin"></div></div>
 <script>
 const $=s=>document.querySelector(s);
@@ -416,7 +439,7 @@ const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'
 const TIGER='<svg viewBox="0 0 120 120" aria-hidden="true"><path d="M72 4L16 70H50L38 116L106 40H70L92 4Z" fill="#ffd23f" stroke="#2b1408" stroke-width="4" stroke-linejoin="round"/><path d="M70 12L30 62" stroke="#fff4b8" stroke-width="5" stroke-linecap="round" opacity=".7"/><circle cx="46" cy="50" r="7.5" fill="#fff"/><circle cx="71" cy="50" r="7.5" fill="#fff"/><circle cx="47.5" cy="51" r="3.6" fill="#2b1408"/><circle cx="72.5" cy="51" r="3.6" fill="#2b1408"/><circle cx="48.8" cy="49.6" r="1.2" fill="#fff"/><circle cx="73.8" cy="49.6" r="1.2" fill="#fff"/><path d="M47 62Q58 76 69 62Z" fill="#2b1408" stroke="#2b1408" stroke-width="2" stroke-linejoin="round"/><path d="M52 66Q58 71 64 66Q58 64 52 66Z" fill="#ff6a7a"/></svg>';
 const tig=c=>TIGER.replace('<svg ','<svg class="'+c+'" ');
 let ADV=LS.get('fd_adv')||{},WIN=LS.get('fd_win')||{};
-let PROF=LS.get('fd_prof'),ans={},SESS=null,CHK=LS.get('fd_chk')||{},JUST=null,RT=null,PG=null;
+let PROF=LS.get('fd_prof'),ans={},SESS=null,CHK=LS.get('fd_chk')||{},JUST=null,RT=null,PG=null,CUS=LS.get('fd_custom')||[],ED=null;
 
 const QS=[
  {k:'name',type:'text',say:()=>"Grrr, salut ! Moi c'est Volt. Je te prépare un programme sur mesure en quelques questions. Comment tu t'appelles ?"},
@@ -643,6 +666,7 @@ function exLi(t,i,done){
 function showDemo(d,key){d.innerHTML=`<div class="anim"></div><p>${esc(AN[key].t)}</p>`;mountAnim(d.firstChild,key)}
 function progClick(e){
  const b=e.target.closest('button');if(!b)return;
+ if(edClick(b))return;
  if(b.classList.contains('sm')){
   if(b.dataset.a){const d=b.closest('li').querySelector('.demo');d.hidden=!d.hidden;if(!d.hidden)showDemo(d,b.dataset.a);b.textContent=d.hidden?'Voir':'Masquer'}
   else goAnalyse(b.dataset.f);
@@ -727,12 +751,14 @@ function renderProg(){
  PG=gen();
  renderNext();
  const el=$('#prog');
+ if(ED){renderEditor();return}
+ if(SESS!=null&&curS(PG)){renderSession(PG);return}
+ SESS=null;
  if(!PG){
-  SESS=null;
-  el.innerHTML=`<div class="pghead"><h2>Mes séances</h2></div><div class="c"><b>Pas encore de programme</b><span class="t">Réponds aux questions de Volt pour créer tes séances.</span></div><div class="row"><button id="redo">Créer mon programme</button></div>`;
+  el.innerHTML=`${takeToast()}<div class="pghead"><h2>Mes séances</h2></div><div class="c"><b>Pas encore de programme</b><span class="t">Réponds aux questions de Volt pour créer tes séances, ou crée les tiennes.</span></div><div class="row"><button id="redo">Créer mon programme</button></div>${cusList()}`;
   $('#redo').onclick=openOb;return;
  }
- if(SESS!=null&&PG.sessions[SESS])renderSession(PG);else{SESS=null;renderSList(PG)}
+ renderSList(PG);
 }
 function profLine(p){
  if(p.pl==null&&!p.reps)return '';
@@ -742,35 +768,36 @@ function profLine(p){
 }
 function renderSList(P){
  const w=weekInfo(P),n=P.sessions.length,hist=w.log.slice(-6).reverse();
- const toast=JUST?`<div class="bubble" style="margin-bottom:14px">Bravo ${esc(PROF.name)} ! ${esc(JUST)} est enregistrée.</div>`:'';JUST=null;
+ const toast=takeToast();
  $('#prog').innerHTML=`${toast}<div class="pghead"><h2>Mes séances</h2><p class="sub">Programme de ${esc(PROF.name)}, ${PROF.days} séances par semaine, environ ${PROF.dur} min.</p></div>
  ${P.curs.map(c=>`<div class="goal"><div><span style="color:var(--mut);font-size:13px">Figure du moment${P.curs.length>1?' · '+DN[c.d]:''}</span><br><b>${NAME[c.cur]}</b></div><button class="gofig" data-f="${c.cur}">Analyser</button></div>`).join('')}
  ${profLine(shownProf(PROF))?`<p class="note" style="margin:6px 2px 0">${esc(profLine(shownProf(PROF)))}</p>`:''}
  <div class="wkc"><b>${w.done}/${n}</b> <span style="color:var(--mut);font-size:14px">séances cette semaine</span><div class="wk">${P.sessions.map((_,i)=>`<i class="${w.set.has(i)?'on':''}"></i>`).join('')}</div></div>
  ${P.sessions.map((s,i)=>`<button class="sc${w.set.has(i)?' done':''}${i===w.nx?' next':''}" data-s="${i}"><span><b>${s.name}</b><small>${esc(s.focus)} · ${nEx(s)} exercices</small></span><span class="stt">${w.set.has(i)?'Faite':i===w.nx?'Prochaine':'À faire'}</span></button>`).join('')}
+ ${cusList()}
  ${P.notes.map(t=>`<p class="note">${esc(t)}</p>`).join('')}
  ${hist.length?`<h3>Historique</h3>${hist.map(l=>`<div class="h"><span>${esc(l.n)}<small>${frDate(l.d)}</small></span><span>✓</span></div>`).join('')}`:''}
  <button class="redo alt" id="redo">Refaire le questionnaire</button>`;
  document.querySelectorAll('.gofig').forEach(b=>b.onclick=()=>goAnalyse(b.dataset.f));$('#redo').onclick=openOb;
 }
 function renderSession(P){
- const s=P.sessions[SESS],a=CHK[SESS]||[],n=nEx(s),d=s.items.filter((t,i)=>!isTip(t)&&a[i]).length;
+ const s=curS(P),cu=typeof SESS==='string',a=CHK[SESS]||[],n=nEx(s),d=s.items.filter((t,i)=>!isTip(t)&&a[i]).length;
  const rb=[['45 s',45],['1 min',60],['1:30',90],['2 min',120],['Stop',0]];
  $('#prog').innerHTML=`<button class="back" id="sback">‹ Toutes les séances</button>
- <div class="pghead"><h2>${s.name}</h2><p class="sub">${esc(s.focus)}, environ ${PROF.dur} min</p></div>
+ <div class="pghead"><h2>${s.name}</h2><p class="sub">${cu?nEx(s)+' exercices':esc(s.focus)+', environ '+PROF.dur+' min'}</p></div>
  <div class="pbar"><i id="pf" style="width:${100*d/n}%"></i></div><p class="note" style="margin:6px 0 0"><span id="pc">${d}/${n}</span> exercices faits</p>
  <ul class="dx">${s.items.map((t,i)=>exLi(t,i,!!a[i])).join('')}</ul>
  <div class="rest"><b id="rt">Repos</b><span>${rb.map(r=>`<button class="rb" data-rest="${r[1]}">${r[0]}</button>`).join('')}</span></div>
- <button class="fin" id="sfin">Terminer la séance</button>`;
+ <button class="fin" id="sfin">Terminer la séance</button>${cu?`<button class="redo alt" data-ed="edit" style="width:100%;flex:none">Modifier la séance</button>`:''}`;
 }
 function toggleCk(b){
  const i=+b.dataset.i,a=CHK[SESS]||(CHK[SESS]=[]);a[i]=!a[i];LS.set('fd_chk',CHK);
  b.classList.toggle('on',!!a[i]);b.setAttribute('aria-pressed',!!a[i]);b.closest('li').classList.toggle('dn',!!a[i]);
- const s=PG.sessions[SESS],n=nEx(s),d=s.items.filter((t,j)=>!isTip(t)&&a[j]).length;
+ const s=curS(PG),n=nEx(s),d=s.items.filter((t,j)=>!isTip(t)&&a[j]).length;
  $('#pf').style.width=(100*d/n)+'%';$('#pc').textContent=d+'/'+n;
 }
 function finishSession(){
- const s=PG.sessions[SESS],log=LS.get('fd_log')||[];
+ const s=curS(PG),log=LS.get('fd_log')||[];
  log.push({d:dk(new Date()),s:SESS,n:s.name});LS.set('fd_log',log.slice(-60));
  delete CHK[SESS];LS.set('fd_chk',CHK);JUST=s.name;SESS=null;
  renderProg();window.scrollTo({top:0});
@@ -866,6 +893,86 @@ function renderProgress(){
 }
 $('#pgrog').onclick=e=>{const b=e.target.closest('.gofig2');if(b)goAnalyse(b.dataset.f)};
 $('#prog').onclick=progClick;
+/* ================= Séances perso ================= */
+const saveCus=()=>LS.set('fd_custom',CUS);
+const asSess=c=>({name:c.name,focus:'Séance perso',items:c.items});
+const curS=P=>typeof SESS==='string'?(c=>c?asSess(c):null)(CUS.find(c=>'c'+c.id===SESS)):(P&&P.sessions[SESS]);
+function takeToast(){const t=JUST?`<div class="bubble" style="margin-bottom:14px">Bravo${PROF&&PROF.name?' '+esc(PROF.name):''} ! ${esc(JUST)} est enregistrée.</div>`:'';JUST=null;return t}
+const PLUS='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';
+const SUG=[...FIGS.map(f=>f[1]),'Pompes','Pompes pseudo-planche','Pompes archer','Dips','Tractions','Rowing australien','Hollow body','Planche gainage','Relevés de genoux suspendu','Relevés de jambes allongé','Superman','Arch hold','Squats','Fentes','Gainage latéral','Burpees'];
+const isFigN=n=>FIGS.some(f=>f[1].toLowerCase()===n.toLowerCase());
+const figCanon=n=>(FIGS.find(f=>f[1].toLowerCase()===n.toLowerCase())||[])[1]||n;
+function cusList(){
+ const log=LS.get('fd_log')||[],m=monK();
+ const done=c=>log.some(l=>l.d>=m&&l.s==='c'+c.id);
+ return `<h3>Mes séances perso</h3>${CUS.map(c=>`<button class="sc${done(c)?' done':''}" data-ed="open" data-id="${c.id}"><span><b>${esc(c.name)}</b><small>${nEx(c)} exercice${nEx(c)>1?'s':''}</small></span><span class="stt">${done(c)?'Faite':'À faire'}</span></button>`).join('')||'<p class="note" style="margin:4px 2px 0">Crée tes propres séances avec les exercices de ton choix.</p>'}<button class="alt addsc" data-ed="new">${PLUS}Créer une séance</button>`;
+}
+function syncEd(){
+ if(!ED)return;
+ const g=i=>{const e=document.getElementById(i);return e?e.value:null};
+ const n=g('ced-name');if(n!=null)ED.name=n;
+ const x=g('ced-ex');if(x!=null)ED.ex=x;
+ const a=g('ced-s');if(a!=null)ED.s=a;
+ const r=g('ced-r');if(r!=null)ED.r=r;
+ const u=g('ced-u');if(u!=null)ED.u=u;
+}
+function renderEditor(){
+ const e=ED;
+ $('#prog').innerHTML=`<button class="back" data-ed="cancel">‹ Annuler</button>
+ <div class="pghead"><h2>${e.id?'Modifier la séance':'Nouvelle séance'}</h2></div>
+ <input class="ti" id="ced-name" type="text" maxlength="40" placeholder="Nom de la séance" value="${esc(e.name)}" aria-label="Nom de la séance">
+ ${e.items.length?`<ul class="dx">${e.items.map((t,i)=>`<li><div class="ex"><span class="tx">${esc(t)}</span><span class="acts"><button class="sm" data-ed="up" data-i="${i}" aria-label="Monter"${i?'':' disabled'}>↑</button><button class="sm" data-ed="dn" data-i="${i}" aria-label="Descendre"${i<e.items.length-1?'':' disabled'}>↓</button><button class="sm" data-ed="del" data-i="${i}" aria-label="Retirer">✕</button></span></div></li>`).join('')}</ul>`:'<p class="note" style="margin:10px 2px 0;color:var(--mut);font-size:13px">Aucun exercice pour le moment : ajoute le premier ci-dessous.</p>'}
+ <div class="ced"><b>Ajouter un exercice</b>
+  <div class="chp">${SUG.map(n=>`<button data-ed="pick" data-n="${esc(n)}">${esc(n)}</button>`).join('')}</div>
+  <input id="ced-ex" type="text" maxlength="50" placeholder="Nom de l'exercice (ex. Pompes)" value="${esc(e.ex||'')}" aria-label="Nom de l'exercice">
+  <div class="lbl"><span>Séries</span><span></span><span>${e.u==='s'?'Secondes':'Répétitions'}</span><span style="flex:none;width:86px"></span></div>
+  <div class="nr"><input id="ced-s" type="number" inputmode="numeric" min="1" max="20" value="${esc(e.s)}" aria-label="Séries"><span>×</span><input id="ced-r" type="number" inputmode="numeric" min="1" max="600" value="${esc(e.r)}" aria-label="Répétitions ou secondes"><select id="ced-u" aria-label="Unité"><option value="rep"${e.u==='s'?'':' selected'}>rép.</option><option value="s"${e.u==='s'?' selected':''}>sec.</option></select></div>
+  <button class="alt" data-ed="add" style="width:100%;flex:none">Ajouter l'exercice</button>
+ </div>
+ ${e.err?`<p class="err">${esc(e.err)}</p>`:''}
+ <button class="fin" data-ed="save">Enregistrer la séance</button>
+ ${e.id?'<button class="redo alt" data-ed="remove" style="width:100%;flex:none;color:#ff8fa8">Supprimer cette séance</button>':''}`;
+ const u=document.getElementById('ced-u');if(u)u.onchange=()=>{syncEd();renderEditor()};
+}
+function addEx(){
+ syncEd();
+ const n=(ED.ex||'').trim().replace(/\s+/g,' ');
+ if(!n){ED.err='Écris ou choisis le nom de l\'exercice.';renderEditor();return}
+ const sets=clamp(Math.round(+ED.s)||1,1,20),val=clamp(Math.round(+ED.r)||1,1,600);
+ const fig=isFigN(n),nm=figCanon(n);
+ /* les figures sont toujours chronométrées : « Tuck planche : 3 × 8 s » pour garder les boutons Voir / Analyser */
+ ED.items.push(fig?`${nm} : ${sets} × ${val} s`:`${nm} ${sets}×${val}${ED.u==='s'?' s':''}`);
+ ED.ex='';ED.err='';renderEditor();
+}
+function edClick(b){
+ const k=b.dataset.ed;if(!k)return false;
+ const go2=()=>{renderProg();window.scrollTo({top:0})};
+ if(k==='new'){ED={id:null,name:'',items:[],ex:'',s:3,r:10,u:'rep',err:''};go2()}
+ else if(k==='edit'){const c=CUS.find(c=>'c'+c.id===SESS);if(!c)return true;ED={id:c.id,name:c.name,items:c.items.slice(),ex:'',s:3,r:10,u:'rep',err:''};go2()}
+ else if(k==='open'){SESS='c'+b.dataset.id;go2()}
+ else if(k==='cancel'){ED=null;go2()}
+ else if(k==='pick'){syncEd();ED.ex=b.dataset.n;ED.err='';if(isFigN(b.dataset.n)){ED.u='s';ED.r=ED.r>=1&&ED.u==='s'?ED.r:8}renderEditor();const i=document.getElementById('ced-r');if(i)i.focus()}
+ else if(k==='add')addEx();
+ else if(k==='up'||k==='dn'){syncEd();const i=+b.dataset.i,j=k==='up'?i-1:i+1;if(j>=0&&j<ED.items.length){[ED.items[i],ED.items[j]]=[ED.items[j],ED.items[i]]}renderEditor()}
+ else if(k==='del'){syncEd();ED.items.splice(+b.dataset.i,1);renderEditor()}
+ else if(k==='save'){
+  syncEd();
+  if(ED.ex&&ED.ex.trim()){addEx();if(ED.err)return true}
+  if(!ED.items.length){ED.err='Ajoute au moins un exercice.';renderEditor();return true}
+  const name=(ED.name||'').trim()||'Ma séance';
+  if(ED.id){const c=CUS.find(c=>c.id===ED.id);if(c){c.name=name;c.items=ED.items.slice()}}
+  else CUS.push({id:Date.now().toString(36),name,items:ED.items.slice()});
+  const id=ED.id;saveCus();ED=null;SESS=id?'c'+id:null;go2();
+ }
+ else if(k==='remove'){
+  if(!confirm('Supprimer cette séance ?'))return true;
+  CUS=CUS.filter(c=>c.id!==ED.id);saveCus();delete CHK['c'+ED.id];LS.set('fd_chk',CHK);ED=null;SESS=null;go2();
+ }
+ return true;
+}
+$('#prog').addEventListener('input',()=>{if(ED)syncEd()});
+$('#prog').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='ced-ex'){e.preventDefault();addEx()}});
+
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>go(b.dataset.p));
 $('#tg').innerHTML=TIGER;
 $('#tg').onclick=()=>PROF?go('seances'):openOb();
