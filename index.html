@@ -231,11 +231,68 @@ button.rb{flex:none;padding:6px 11px;font-size:12px;border-radius:99px;backgroun
 button:disabled{opacity:.35}
 .dx .acts{align-items:center}
 .dx button.sm{min-width:32px;min-height:32px}
+
+/* ---- rangs ---- */
+.hr{display:flex;align-items:center;gap:2px}
+#rkb{width:44px;height:44px}
+#rkb svg{width:100%;height:100%;display:block}
+svg.rk{overflow:visible;display:block}
+.rk-spin{transform-origin:60px 70px;animation:rkspin var(--sp,40s) linear infinite}
+.rk-pu{transform-origin:60px 70px;animation:rkpu 3.2s ease-in-out infinite}
+.rk-tw{transform-box:fill-box;transform-origin:center;animation:rktw 2.6s ease-in-out infinite}
+.rk-sh{animation:rksh 3.6s ease-in-out infinite}
+@keyframes rkspin{to{transform:rotate(360deg)}}
+@keyframes rkpu{0%,100%{opacity:.75;transform:scale(.96)}50%{opacity:1;transform:scale(1.04)}}
+@keyframes rktw{0%,100%{opacity:.15;transform:scale(.4)}50%{opacity:1;transform:scale(1)}}
+@keyframes rksh{0%,45%{transform:translateX(0) rotate(18deg)}100%{transform:translateX(220px) rotate(18deg)}}
+.rkc{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px 16px 12px 10px;margin:0 0 14px;cursor:pointer}
+.rkc:focus-visible{outline:3px solid var(--cy);outline-offset:2px}
+.rkc svg{width:68px;height:68px;flex:none}
+.rkc>div{flex:1;min-width:0}
+.rkc small{display:block;color:var(--mut);font-size:12px}
+.rkc b{display:block;font:italic 800 30px/1.05 var(--disp);padding-right:4px}
+.rkc .pbar{margin-top:8px}
+.rkc .pts{color:var(--mut);font-size:12px;margin-top:5px}
+.rko{position:fixed;inset:0;z-index:70;overflow-y:auto;padding:calc(20px + env(safe-area-inset-top,0px)) 18px calc(26px + env(safe-area-inset-bottom,0px));animation:unlf .3s both}
+.rko-in{position:relative;max-width:400px;margin:0 auto;text-align:center}
+.rko .bd{width:196px;height:196px;margin:8px auto 0;animation:rkin .9s .1s cubic-bezier(.2,1.3,.4,1) both}
+.rko .bd svg{width:100%;height:100%}
+@keyframes rkin{from{opacity:0;transform:scale(.3) rotate(-10deg)}to{opacity:1;transform:none}}
+.rko .k{letter-spacing:.18em;text-transform:uppercase;font-size:12px;color:var(--ok);margin:6px 0 0;animation:unlup .5s .5s both}
+.rko h2{font:italic 800 clamp(46px,14vw,66px)/1 var(--disp);margin:4px 0 6px;padding-right:6px;animation:unlup .6s .65s both}
+.rko .d{color:#d9defa;font-size:15px;line-height:1.4;margin:0 auto 14px;max-width:34ch;animation:unlup .6s .8s both}
+.rko .sec{animation:unlup .6s .95s both}
+.rko .ptl{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--mut);margin-top:6px}
+.rko .ptl b{font:italic 800 26px var(--disp);color:var(--fg)}
+.rko .pbar{height:10px}
+.rko .brk{text-align:left;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin-top:16px}
+.rko .brk .mt{grid-template-columns:104px 1fr 62px}
+.rko .brk p{margin:0 0 2px;font-size:12px;color:var(--mut)}
+.rko .how{text-align:left;margin:14px 2px 0;color:#d9defa;font-size:13.5px;line-height:1.4}
+.rko .how b{color:var(--gold)}
+.rko .how ul{margin:6px 0 0;padding-left:18px}
+.rko .how li{margin:3px 0}
+.rko h4{font:italic 800 22px var(--disp);margin:20px 0 6px;text-align:left}
+.rkl{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.rkl>div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px 2px 8px;text-align:center}
+.rkl>div:nth-child(5),.rkl>div:nth-child(6),.rkl>div:nth-child(7){grid-column:span 1}
+.rkl svg{width:60px;height:60px;margin:0 auto}
+.rkl b{display:block;font:italic 800 15px var(--disp);margin-top:2px}
+.rkl span{display:block;color:var(--mut);font-size:10.5px}
+.rkl .lk svg{filter:grayscale(.9) brightness(.55)}
+.rkl .lk{opacity:.8}
+.rkl .cur{border-color:var(--gold);background:#ffc94d1a;box-shadow:0 0 0 3px #ffc94d22}
+.rko .row{margin-top:20px;animation:unlup .6s 1.1s both}
+.rko .pt{position:absolute;left:50%;top:128px;width:7px;height:7px;border-radius:2px;opacity:0;animation:rkfly 1.4s var(--dl,0s) ease-out both}
+@keyframes rkfly{0%{opacity:0;transform:rotate(var(--a)) translateY(0) scale(.6)}15%{opacity:1}100%{opacity:0;transform:rotate(var(--a)) translateY(var(--dist,150px)) scale(1)}}
+.rkr{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13px;color:var(--gold)}
+.rkr svg{width:28px;height:28px;flex:none}
+@media (prefers-reduced-motion:reduce){.rk-spin,.rk-pu,.rk-tw,.rk-sh,.rko *{animation:none!important}.rk-tw{opacity:1}.rk-sh{display:none}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5.1675469404/pose.js"></script>
 </head>
 <body><div class="wrap">
-<header class="top"><div class="brand"><i></i>Calix</div><button class="mini" id="tg" aria-label="Ouvrir mes séances"></button></header>
+<header class="top"><div class="brand"><i></i>Calix</div><div class="hr"><button class="mini" id="rkb" data-rank aria-label="Mon rang"></button><button class="mini" id="tg" aria-label="Ouvrir mes séances"></button></div></header>
 <section id="pgA"><div class="hero"><p id="fig" class="wait">Choisis ta figure</p><p id="st">Choisis ta figure, puis lance la caméra ou importe une vidéo.</p></div>
 <label class="pick" for="sel">Figure à analyser</label><select id="sel"></select>
 <details class="dm" id="dm"><summary>Voir comment faire le mouvement</summary><div id="dmb"></div></details>
@@ -356,6 +413,7 @@ function finish(){
   HIST.unshift({d:Date.now(),f:a.id,avg,peak,dur:+dur.toFixed(1)});HIST=HIST.slice(0,30);
   try{localStorage.setItem('fd_hist',JSON.stringify(HIST))}catch(e){}
   renderHist();status('Figure terminée. Reprends une position pour une nouvelle analyse.');
+  rkAfterAnalysis(!!un);
   if(un)setTimeout(()=>showUnlock(un),900);
 }
 
@@ -464,7 +522,7 @@ function step(i){
  const links=`${i>0&&q?'<button class="skip" id="obback">Retour</button>':''}<button class="skip" id="obskip">Plus tard</button>`;
  if(!q){
   box.innerHTML=`${tig('tiger hop')}<div class="bubble">Et voilà ${esc(ans.name)} ! Ton programme est prêt. Tu peux me retrouver en haut à droite pour le revoir ou le refaire.</div>${dots}<button class="go" id="obgo" style="margin-top:14px">Voir mon programme</button>`;
-  $('#obgo').onclick=()=>{PROF=ans;LS.set('fd_prof',PROF);ADV={};LS.set('fd_adv',ADV);SESS=null;CHK={};LS.set('fd_chk',CHK);closeOb();renderProg();go('seances')};
+  $('#obgo').onclick=()=>{PROF=ans;LS.set('fd_prof',PROF);ADV={};LS.set('fd_adv',ADV);SESS=null;CHK={};LS.set('fd_chk',CHK);closeOb();renderProg();go('seances');rkAfterQuiz()};
   $('#obgo').focus();return;
  }
  const say=q.say(ans);
@@ -721,7 +779,7 @@ function renderStats(){
   const card=f=>{const R=REC[f[0]];return R&&R.n?
     `<div class="rc"><h4>${esc(f[1])}<small>${R.n} analyse${R.n>1?'s':''}</small></h4><div class="g"><div><b>${R.best}<i>/100</i></b><span>Meilleure note · ${fd(R.dBest)}</span></div><div><b>${R.hold.toFixed(1)}<i>s</i></b><span>Tenue la plus longue · ${fd(R.dHold)}</span></div></div><p class="m">Meilleure note instantanée ${R.peak} · ${fmtT(R.tot)} tenues au total</p></div>`:
     `<div class="rc no"><h4>${esc(f[1])}<small>Pas encore tentée</small></h4></div>`};
-  $('#stats').innerHTML=`<div class="sg"><div><b>${nA}</b><span>analyses</span></div><div><b>${done.length}/${FIGS.length}</b><span>figures tentées</span></div><div><b>${tot>=60?Math.floor(tot/60)+'<small>min</small>':Math.round(tot)+'<small>s</small>'}</b><span>temps tenu</span></div></div>`+
+  $('#stats').innerHTML=rkCard()+`<div class="sg"><div><b>${nA}</b><span>analyses</span></div><div><b>${done.length}/${FIGS.length}</b><span>figures tentées</span></div><div><b>${tot>=60?Math.floor(tot/60)+'<small>min</small>':Math.round(tot)+'<small>s</small>'}</b><span>temps tenu</span></div></div>`+
     (done.length?done.map(card).join(''):'<p style="color:var(--mut);font-size:14px">Aucun record pour le moment. Fais une analyse et tes meilleurs résultats apparaîtront ici.</p>')+
     (todo.length&&done.length?`<h3>À débloquer</h3>${todo.map(card).join('')}`:'');
 }
@@ -850,7 +908,7 @@ function progLine(id,win,dur,un){
  if(f.state==='lock')return`<p>Figure verrouillée : valide d'abord ${NAME[f.cur]} pour qu'elle compte.</p>`;
  return'';
 }
-function closeUnlock(){const e=$('#unl');if(e){e.remove();document.body.style.overflow=''}}
+function closeUnlock(){const e=$('#unl');if(e){e.remove();document.body.style.overflow='';rkPending()}}
 function showUnlock(u){
  closeUnlock();
  const rays=Array.from({length:14},(_,i)=>`<i class="ray" style="--a:${Math.round(i*360/14)}deg"></i>`).join('');
@@ -889,7 +947,7 @@ function renderProgress(){
   }).join('');
   return`<div class="fam"><h3>${DN[d]}<small>${L>=len?'Maîtrisée 🏆':goals.has(d)?L+'/'+len+' validées':'Hors de ton programme'}</small></h3>${steps}</div>`;
  };
- el.innerHTML=`<h2>Ma progression</h2><p class="sub">Analyse la figure en cours : si tu la tiens ${UNL_SEC} s avec ${UNL_SCORE}/100 ou plus, l'étape suivante se débloque et tes séances se mettent à jour.</p>${fams.map(card).join('')}`;
+ el.innerHTML=`<h2>Ma progression</h2>${rkCard()}<p class="sub">Analyse la figure en cours : si tu la tiens ${UNL_SEC} s avec ${UNL_SCORE}/100 ou plus, l'étape suivante se débloque et tes séances se mettent à jour.</p>${fams.map(card).join('')}`;
 }
 $('#pgrog').onclick=e=>{const b=e.target.closest('.gofig2');if(b)goAnalyse(b.dataset.f)};
 $('#prog').onclick=progClick;
@@ -973,12 +1031,204 @@ function edClick(b){
 $('#prog').addEventListener('input',()=>{if(ED)syncEd()});
 $('#prog').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='ced-ex'){e.preventDefault();addEx()}});
 
+/* ================= Rangs ================= */
+var RKP=[
+ {n:'Bronze',a:'#f7d3a8',b:'#cd7f3c',c:'#6b3512',g:'#ff9a4d',d:'Tu poses les bases. Chaque étape validée te fait grimper.'},
+ {n:'Argent',a:'#ffffff',b:'#bcc6d8',c:'#5f6c86',g:'#cfe0ff',d:'Les bases sont solides. Continue de construire ta force.'},
+ {n:'Or',a:'#fff3b8',b:'#f6b92b',c:'#8f5a06',g:'#ffd45e',d:'Un vrai niveau. Les premières figures sont à toi.'},
+ {n:'Platine',a:'#f0feff',b:'#7fe0f0',c:'#217a96',g:'#7ff3ff',d:'Niveau avancé : tes figures deviennent propres.'},
+ {n:'Diamant',a:'#f2f8ff',b:'#6aa8ff',c:'#2b3fc9',g:'#8cc4ff',d:'Très haut niveau. Peu de gens tiennent ces positions.'},
+ {n:'Maître',a:'#ffe6ff',b:'#b366ff',c:'#4a1796',g:'#d28cff',d:'Tu maîtrises les figures majeures. Respect.'},
+ {n:'Légende',a:'#fff6c9',b:'#ff7a3d',c:'#a1123a',g:'#ffcf5a',d:'Le sommet. Tu fais partie des meilleurs.'}
+];
+/* points nécessaires pour chaque rang (maximum possible : 1000) */
+const RKT=[0,100,220,360,520,700,880];
+/* questionnaire (max 600) : figure tenue par famille + maximums de répétitions */
+const RKS={planche:[0,25,60,105,160],fl:[0,45,95,160],sit:[0,30,65,100]};
+const RKR=[['pu',40,50],['pull',60,25],['dip',50,30],['abs',30,30]];
+/* analyses (max 400) : étapes validées, qualité de chaque figure, régularité */
+const RKW={pll:10,tp:14,atp:18,pl:24,tfl:12,afl:16,fl:22,tls:8,ls:12,vs:18,hl:10};
+let RKU=0,RKPEND=null;
+
+function rkParts(){
+ let fig=0,rep=0,ver=0,qual=0;
+ if(PROF){
+  FAM.forEach(d=>{const a=RKS[d],k=Math.max(0,Math.min(a.length-1,(+declLv(d)||0)|0));fig+=a[k]});
+  const r=PROF.reps||{};RKR.forEach(([k,w,cap])=>{rep+=w*Math.pow(Math.min(1,(+r[k]||0)/cap),.85)});
+ }
+ FAM.forEach(d=>{ver+=25*Math.min(ADV[d]||0,LAD[d].length)});
+ Object.keys(RKW).forEach(id=>{const R=REC[id];if(R&&R.n)qual+=RKW[id]*Math.pow(R.best/100,2)*(.5+.5*Math.min(1,R.hold/UNL_SEC))});
+ qual=Math.min(150,qual);
+ const days=new Set(HIST.map(h=>new Date(h.d).toDateString())).size,reg=Math.min(20,days*2);
+ return{q:Math.round(fig+rep),a:Math.min(400,Math.round(ver+qual+reg)),fig:Math.round(fig),rep:Math.round(rep),ver,qual:Math.round(qual),reg};
+}
+function rkState(){
+ const p=rkParts(),cur=p.q+p.a,st=LS.get('fd_rp')||{},pts=Math.max(cur,st.pts||0);
+ let i=0;RKT.forEach((t,k)=>{if(pts>=t)i=k});
+ const nx=i<RKT.length-1?RKT[i+1]:null;
+ return{...p,cur,kept:Math.max(0,pts-cur),pts,i,nx,pct:nx?Math.round(100*(pts-RKT[i])/(nx-RKT[i])):100};
+}
+/* enregistre le rang atteint : il ne redescend jamais */
+function rkCheck(){
+ const s=rkState(),old=LS.get('fd_rp'),pi=old?old.i:-1,pp=old?old.pts:0;
+ LS.set('fd_rp',{pts:s.pts,i:s.i});rkHead();
+ return{s,first:!old,up:!!old&&s.i>pi,gain:s.pts-pp};
+}
+const rkTxt=P=>`background:linear-gradient(90deg,${P.a},${P.b});-webkit-background-clip:text;background-clip:text;color:transparent`;
+
+/* ---------- dessin des insignes : de plus en plus riche à chaque rang ---------- */
+const rkPoly=(pts,f,o)=>`<polygon points="${pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')}" fill="${f}"${o!=null?` fill-opacity="${o}"`:''}/>`;
+const rkSpark=(x,y,s,dl)=>`<path class="rk-tw" style="animation-delay:${dl||0}s" d="M${x} ${y-s}Q${x} ${y} ${x+s} ${y}Q${x} ${y} ${x} ${y+s}Q${x} ${y} ${x-s} ${y}Q${x} ${y} ${x} ${y-s}Z" fill="#fff"/>`;
+function rkStarD(cx,cy,R,r,n){let d='';for(let k=0;k<n*2;k++){const q=k%2?r:R,a=-Math.PI/2+k*Math.PI/n;d+=(k?'L':'M')+(cx+q*Math.cos(a)).toFixed(1)+' '+(cy+q*Math.sin(a)).toFixed(1)}return d+'Z'}
+function rkChev(y,w,sw,s){return`<path d="M${60-w} ${y+w*.85}L60 ${y}L${60+w} ${y+w*.85}" fill="none" stroke="${s}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round"/>`}
+function rkWing(n,sc,fill,st){
+ let o='';
+ for(let j=n-1;j>=0;j--){
+  const t=n>1?j/(n-1):0,a=(68-t*58)*Math.PI/180,L=sc*(52-j*3.4),rx=20,ry=40+t*30,dx=-Math.cos(a),dy=-Math.sin(a),tx=rx+L*dx,ty=ry+L*dy,mx=(rx+tx)/2,my=(ry+ty)/2,w=7.5+sc*1.2,nx=-dy,ny=dx;
+  o+=`<path d="M${rx} ${ry}Q${(mx+nx*w*1.7).toFixed(1)} ${(my+ny*w*1.7).toFixed(1)} ${tx.toFixed(1)} ${ty.toFixed(1)}Q${(mx-nx*w*1.7).toFixed(1)} ${(my-ny*w*1.7).toFixed(1)} ${rx} ${ry}Z" fill="${fill}" stroke="${st}" stroke-width=".9" stroke-opacity=".7"/>`;
+ }
+ return o+`<g transform="translate(120 0) scale(-1 1)">${o}</g>`;
+}
+function rkLaurel(n,R,sc,fill,st){
+ let o='',stem='';
+ const pt=(deg,r)=>[60+r*Math.cos(deg*Math.PI/180),72+r*Math.sin(deg*Math.PI/180)];
+ for(let k=0;k<n;k++){
+  const t=n>1?k/(n-1):0,th=102+t*88,out=k%2===0,[x,y]=pt(th,R+(out?3:-3));
+  o+=`<ellipse transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${(th+(out?-34:34)).toFixed(0)})" rx="${(3.1*sc).toFixed(1)}" ry="${(7.4*sc).toFixed(1)}" fill="${fill}" stroke="${st}" stroke-width=".6" stroke-opacity=".6"/>`;
+ }
+ const [x1,y1]=pt(102,R),[x2,y2]=pt(190,R);
+ stem=`<path d="M${x1.toFixed(1)} ${y1.toFixed(1)}A${R} ${R} 0 0 1 ${x2.toFixed(1)} ${y2.toFixed(1)}" fill="none" stroke="${st}" stroke-width="1.6" stroke-linecap="round" stroke-opacity=".8"/>`;
+ const half=stem+o;
+ return half+`<g transform="translate(120 0) scale(-1 1)">${half}</g>`;
+}
+function rkHexGem(cx,cy,s,fill){
+ const v=k=>{const a=(-90+k*60)*Math.PI/180;return[cx+s*Math.cos(a),cy+s*Math.sin(a)]},op=[.42,.1,.24,0,.16,.32];
+ let o=rkPoly([0,1,2,3,4,5].map(v),fill);
+ for(let k=0;k<6;k++)o+=rkPoly([[cx,cy],v(k),v(k+1)],'#fff',op[k]);
+ return o+`<polygon points="${[0,1,2,3,4,5].map(v).map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')}" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="1"/>`;
+}
+function rkDiaGem(cx,cy,s,fill){
+ const P=[[-.55,-.72],[.55,-.72],[1,-.12],[0,1],[-1,-.12]].map(p=>[cx+p[0]*s,cy+p[1]*s]),g1=[cx-s*.5,cy-s*.12],g2=[cx+s*.5,cy-s*.12],tp=[cx,cy-s*.72];
+ let o=rkPoly(P,fill);
+ o+=rkPoly([P[0],P[4],g1],'#fff',.5)+rkPoly([P[0],g1,[cx,cy-s*.12]],'#fff',.18)+rkPoly([P[0],P[1],[cx,cy-s*.12]],'#fff',.62)+rkPoly([P[1],[cx,cy-s*.12],g2],'#fff',.12)+rkPoly([P[1],g2,P[2]],'#fff',.3);
+ o+=rkPoly([P[4],g1,P[3]],'#000',.12)+rkPoly([g1,[cx,cy-s*.12],P[3]],'#fff',.22)+rkPoly([[cx,cy-s*.12],g2,P[3]],'#000',.1)+rkPoly([g2,P[2],P[3]],'#000',.22);
+ return o+`<polygon points="${P.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')}" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="1"/><path d="M${P[4][0].toFixed(1)} ${P[4][1].toFixed(1)}H${P[2][0].toFixed(1)}" stroke="#fff" stroke-opacity=".55" stroke-width=".8"/>`;
+}
+function rkBadge(i,px){
+ const P=RKP[i],u='rk'+(++RKU),id=n=>u+n,U=n=>`url(#${id(n)})`;
+ const gr=(n,st,x2,y2)=>`<linearGradient id="${id(n)}" x1="0" y1="0" x2="${x2}" y2="${y2}">${st.map(s=>`<stop offset="${s[0]}" stop-color="${s[1]}"/>`).join('')}</linearGradient>`;
+ let defs=gr('b',[[0,P.a],[.5,P.b],[1,P.c]],0,1)+gr('r',[[0,P.a],[.3,P.b],[.55,P.c],[.8,P.b],[1,P.a]],1,1)+gr('i',[[0,P.a],[1,P.b]],1,1)
+  +`<radialGradient id="${id('g')}"><stop offset="0" stop-color="${P.g}" stop-opacity=".9"/><stop offset="1" stop-color="${P.g}" stop-opacity="0"/></radialGradient>`;
+ const S1='M60 8L106 26V68C106 98 84 118 60 132C36 118 14 98 14 68V26Z',
+  S2='M60 17L98 32V67C98 92 80 109 60 121C40 109 22 92 22 67V32Z',
+  S3='M60 24L92 37V66C92 87 76 101 60 111C44 101 28 87 28 66V37Z',
+  FACE='#0b1030';
+ const body=[];
+ /* lueur */
+ if(i>=2)body.push(`<circle cx="60" cy="70" r="${70+i*2}" fill="${U('g')}" opacity="${[0,0,.3,.36,.46,.58,.75][i]}" class="${i>=5?'rk-pu':''}"/>`);
+ /* rayons (Légende) */
+ if(i===6){let r='';for(let k=0;k<14;k++){const a=k*360/14;r+=`<polygon transform="rotate(${a} 60 70)" points="57.6,-18 62.4,-18 60.9,34 59.1,34" fill="#ffd66b" fill-opacity="${k%2?.5:.85}"/>`}body.push(`<g class="rk-spin" style="--sp:46s">${r}</g>`)}
+ /* anneau orbital */
+ if(i>=5){
+  const orb=`<circle cx="60" cy="70" r="66" fill="none" stroke="${P.g}" stroke-width="1.6" stroke-dasharray="1 7" stroke-linecap="round" stroke-opacity=".8"/>`;
+  if(i===6){let st='';for(let k=0;k<3;k++){const a=k*120*Math.PI/180;st+=`<path d="${rkStarD(60+66*Math.sin(a),70-66*Math.cos(a),5.5,2.4,4)}" fill="${P.a}" stroke="${P.g}" stroke-width=".8"/>`}body.push(`<g class="rk-spin" style="--sp:22s">${orb}${st}</g>`)}
+  else body.push(`<g class="rk-spin" style="--sp:60s">${orb}</g>`);
+ }
+ /* ailes */
+ if(i>=3){
+  const n=[0,0,0,3,4,5,6][i],sc=[0,0,0,.7,.88,1.02,1.18][i];
+  if(i===6)body.push(rkWing(n,sc*1.22,P.c,'#ffcf5a'));
+  body.push(rkWing(n,sc,U('b'),P.c));
+ }
+ /* lauriers */
+ if(i>=2)body.push(rkLaurel([0,0,7,8,9,10,11][i],i>=5?58:56,i>=4?1.05:.95,U('b'),P.c));
+ /* corps */
+ if(i===0){
+  body.push(`<circle cx="60" cy="70" r="50" fill="${U('r')}"/><circle cx="60" cy="70" r="43" fill="${FACE}" fill-opacity=".62" stroke="${U('b')}" stroke-width="1.6"/>`);
+ }else{
+  if(i===6)body.push(`<path d="M60 0L114 22V68C114 102 90 124 60 140C30 124 6 102 6 68V22Z" fill="${U('r')}" opacity=".9"/>`);
+  body.push(`<path d="${S1}" fill="${U('r')}"/><path d="${S2}" fill="${FACE}" fill-opacity=".62" stroke="${U('b')}" stroke-width="1.6"/>`);
+  if(i>=3)body.push(`<path d="${S3}" fill="none" stroke="${P.b}" stroke-opacity=".55" stroke-width="1"/>`);
+ }
+ /* reflet */
+ body.push(`<clipPath id="${id('c')}">${i===0?'<circle cx="60" cy="70" r="50"/>':`<path d="${S1}"/>`}</clipPath><g clip-path="${U('c')}"><path d="M-20 -10H140V50Q60 30 -20 56Z" fill="#fff" fill-opacity="${i===0?.1:.14}"/>${i===6?`<rect class="rk-sh" x="-50" y="-10" width="26" height="170" fill="#fff" fill-opacity=".38" transform="rotate(18 60 70)"/>`:''}</g>`);
+ /* emblème central */
+ const Eb=U('b'),Ei=U('i');
+ if(i===0)body.push(rkChev(52,22,9,Eb));
+ else if(i===1){body.push(rkChev(46,22,8,Eb)+rkChev(70,22,8,Eb));[[30,42],[90,42],[38,98],[82,98]].forEach(p=>body.push(`<circle cx="${p[0]}" cy="${p[1]}" r="2.6" fill="${Eb}"/>`))}
+ else if(i===2){body.push(`<path d="${rkStarD(60,62,25,10.5,5)}" fill="${Eb}" stroke="${P.c}" stroke-width="1"/>`+rkChev(86,17,6.5,Eb));[[30,42],[90,42]].forEach(p=>body.push(`<circle cx="${p[0]}" cy="${p[1]}" r="2.6" fill="${Eb}"/>`))}
+ else if(i===3){body.push(rkChev(36,16,5,Eb)+rkHexGem(60,68,22,Ei)+rkChev(96,16,5,Eb));[[34,44],[86,44]].forEach(p=>body.push(`<path d="${rkStarD(p[0],p[1],5,2.2,4)}" fill="${Eb}"/>`))}
+ else if(i===4){body.push(rkDiaGem(60,66,27,Ei));[[32,40],[88,40],[60,104]].forEach(p=>body.push(`<path d="${rkStarD(p[0],p[1],5,2.2,4)}" fill="${Eb}"/>`));body.push(rkSpark(86,50,6,.2)+rkSpark(36,86,4.5,1))}
+ else if(i===5){
+  let ring='';for(let k=0;k<10;k++){const a=k*36*Math.PI/180;ring+=`<circle cx="${(60+36*Math.sin(a)).toFixed(1)}" cy="${(68-36*Math.cos(a)).toFixed(1)}" r="1.9" fill="${Eb}"/>`}
+  body.push(ring+`<circle cx="60" cy="68" r="31" fill="none" stroke="${Eb}" stroke-width="1.3" stroke-opacity=".8"/>`+rkDiaGem(60,66,25,Ei)+rkSpark(90,44,6,.2)+rkSpark(30,92,5,1)+rkSpark(88,96,4,1.6));
+ }else{
+  let br='';for(let k=0;k<16;k++){const a=k*22.5*Math.PI/180,l=k%2?9:16;br+=`<path d="M${(60+22*Math.sin(a)).toFixed(1)} ${(68-22*Math.cos(a)).toFixed(1)}L${(60+(22+l)*Math.sin(a)).toFixed(1)} ${(68-(22+l)*Math.cos(a)).toFixed(1)}" stroke="${Eb}" stroke-width="${k%2?1.4:2.4}" stroke-linecap="round" stroke-opacity=".9"/>`}
+  body.push(br+`<circle cx="60" cy="68" r="24" fill="${P.c}" fill-opacity=".55" stroke="${Eb}" stroke-width="1.4"/>`+rkDiaGem(60,66,21,Ei)+rkSpark(94,40,7,.2)+rkSpark(26,96,6,.9)+rkSpark(92,98,5,1.6)+rkSpark(24,46,4.5,.5));
+  [[34,36],[86,36]].forEach(p=>body.push(`<path d="${rkStarD(p[0],p[1],5,2.2,4)}" fill="${Eb}"/>`));
+ }
+ /* couronne */
+ if(i===5)body.push(`<path d="M40 24L37 5L50 14L60 -3L70 14L83 5L80 24Z" fill="${Eb}" stroke="${P.c}" stroke-width="1.2" stroke-linejoin="round"/><path d="M41 19H79" stroke="${P.c}" stroke-opacity=".6"/>${[[37,5],[60,-3],[83,5]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3.2" fill="${P.g}" stroke="#fff" stroke-width=".8"/>`).join('')}`);
+ if(i===6)body.push(`<path d="M34 25L26 0L42 12L50 -8L60 8L70 -8L78 12L94 0L86 25Z" fill="${Eb}" stroke="${P.c}" stroke-width="1.3" stroke-linejoin="round"/><path d="M36 20H84" stroke="${P.c}" stroke-opacity=".6"/><path d="M36 14H84" stroke="#fff" stroke-opacity=".35"/>${[[26,0],[50,-8],[70,-8],[94,0]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="${P.g}" stroke="#fff" stroke-width=".8"/>`).join('')}<circle cx="60" cy="7" r="4.2" fill="#fff" stroke="${P.g}" stroke-width="1.4"/>`);
+ return`<svg class="rk" viewBox="-36 -28 192 192" ${px?`width="${px}" height="${px}"`:''} aria-hidden="true"><defs>${defs}</defs>${body.join('')}</svg>`;
+}
+
+/* ---------- interface : en-tête, carte, fenêtre de rang ---------- */
+function rkHead(){
+ const b=$('#rkb');if(!b)return;const s=rkState();
+ b.innerHTML=rkBadge(s.i);b.setAttribute('aria-label','Mon rang : '+RKP[s.i].n);
+}
+function rkCard(){
+ const s=rkState(),P=RKP[s.i];
+ return`<div class="rkc" data-rank role="button" tabindex="0" aria-label="Voir mon rang ${P.n}">${rkBadge(s.i)}<div><small>Mon rang</small><b style="${rkTxt(P)}">${P.n}</b><div class="pbar"><i style="width:${s.pct}%;background:linear-gradient(90deg,${P.b},${P.a})"></i></div><div class="pts">${s.pts} pts${s.nx?` · encore ${s.nx-s.pts} pour ${RKP[s.i+1].n}`:' · rang maximum'}</div></div></div>`;
+}
+function rkClose(){const e=$('#rko');if(e){e.remove();document.body.style.overflow=''}}
+function rkShow(mode){
+ rkClose();
+ const s=rkState(),P=RKP[s.i],el=document.createElement('div');
+ el.id='rko';el.className='rko';el.setAttribute('role','dialog');el.setAttribute('aria-modal','true');el.setAttribute('aria-label','Mon rang');
+ el.style.background=`radial-gradient(620px 460px at 50% 14%,${P.c}cc,transparent 75%),#05081c`;
+ const kick=mode==='up'?'Nouveau rang !':mode==='start'?'Ton rang de départ':'Mon rang',
+  burst=mode==='view'?'':Array.from({length:22},(_,k)=>`<i class="pt" style="--a:${Math.round(k*360/22)}deg;--dist:${110+(k%3)*38}px;--dl:${(.55+(k%4)*.06).toFixed(2)}s;background:${[P.a,P.b,P.g][k%3]}"></i>`).join('');
+ const tot=(a,b)=>Math.min(100,Math.round(100*a/b));
+ const meter=(l,v,mx)=>`<div class="mt"><span>${l}</span><div class="meter"><i style="width:${tot(v,mx)}%;background:linear-gradient(90deg,${P.b},${P.a})"></i></div><em>${v}/${mx}</em></div>`;
+ const ladder=RKP.map((p,k)=>`<div class="${k===s.i?'cur':k>s.i?'lk':''}">${rkBadge(k)}<b style="${rkTxt(p)}">${p.n}</b><span>${RKT[k]} pts</span></div>`).join('');
+ el.innerHTML=`<div class="rko-in">${burst}<div class="bd">${rkBadge(s.i)}</div>
+  <p class="k">${kick}</p><h2 style="${rkTxt(P)}">${P.n}</h2><p class="d">${P.d}</p>
+  <div class="sec"><div class="ptl"><b>${s.pts} pts</b><span>${s.nx?`encore ${s.nx-s.pts} pts pour ${RKP[s.i+1].n}`:'Rang maximum atteint'}</span></div>
+  <div class="pbar"><i style="width:${s.pct}%;background:linear-gradient(90deg,${P.b},${P.a})"></i></div>
+  <div class="brk"><p>D'où viennent tes points</p>${meter('Questionnaire',s.q,600)}${meter('Analyses',s.a,400)}${s.kept?`<p style="margin-top:8px">+ ${s.kept} pts conservés : ton rang ne redescend jamais.</p>`:''}</div>
+  <div class="how"><b>Comment monter ?</b><ul><li>Valide une étape en tenant la figure ${UNL_SEC} s à ${UNL_SCORE}/100 : +25 pts.</li><li>Améliore ta meilleure note et ta tenue sur chaque figure.</li><li>Analyse-toi sur plusieurs jours : +2 pts par jour, jusqu'à 20.</li></ul></div>
+  <h4>Tous les rangs</h4><div class="rkl">${ladder}</div>
+  <div class="row"><button id="rkx">${mode==='view'?'Fermer':'C\'est parti'}</button></div></div></div>`;
+ document.body.appendChild(el);document.body.style.overflow='hidden';
+ if(mode!=='view'){try{navigator.vibrate&&navigator.vibrate([60,40,120])}catch(e){}}
+ $('#rkx').onclick=rkClose;el.scrollTop=0;setTimeout(()=>{const b=$('#rkx');if(b)b.focus({preventScroll:true})},1200);
+}
+function rkPending(){if(RKPEND){const r=RKPEND;RKPEND=null;setTimeout(()=>rkShow('up'),350)}}
+/* après une analyse : ligne de résultat + éventuelle montée de rang */
+function rkAfterAnalysis(hasUnlock){
+ const r=rkCheck();let line='';
+ if(r.gain>0){const P=RKP[r.s.i];line=`<div class="rkr">${rkBadge(r.s.i)}<span><b>+${r.gain} pts de rang</b> · ${P.n}${r.s.nx?` · encore ${r.s.nx-r.s.pts} pour ${RKP[r.s.i+1].n}`:''}</span></div>`}
+ if(line)$('#res').insertAdjacentHTML('beforeend',line);
+ if(r.up){if(hasUnlock)RKPEND=r;else setTimeout(()=>rkShow('up'),900)}
+}
+/* après le questionnaire */
+function rkAfterQuiz(){const r=rkCheck();setTimeout(()=>rkShow(r.first?'start':r.up?'up':'view'),600)}
+document.addEventListener('click',e=>{if(e.target.closest('[data-rank]'))rkShow('view')});
+document.addEventListener('keydown',e=>{
+ if(e.key==='Escape'&&$('#rko'))rkClose();
+ if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('[data-rank]')){e.preventDefault();rkShow('view')}
+});
+
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>go(b.dataset.p));
 $('#tg').innerHTML=TIGER;
 $('#tg').onclick=()=>PROF?go('seances'):openOb();
 if(PROF&&FIGS.some(f=>f[0]===gen().cur)){const c0=gen().cur;$('#sel').value=c0;setHero(null,NAME[c0])}
 renderProg();
 if(location.hash==='#seances')go('seances');else if(location.hash==='#stats')go('stats');else if(location.hash==='#progression')go('progression');
+rkHead();
+if(PROF&&!LS.get('fd_rp')){rkCheck();setTimeout(()=>rkShow('start'),900)}
 if(!PROF&&!LS.get('fd_skip'))openOb();
 if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol))window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 </script>
