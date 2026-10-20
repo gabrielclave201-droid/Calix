@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Calix</title>
+<title>Astral</title>
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#0c1230">
 <meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Calix"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Astral"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="icon" type="image/png" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,700;1,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Barlow+Condensed:ital,wght@1,700;1,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0c1230;--bg2:#1b1f55;--card:rgba(255,255,255,.07);--line:rgba(255,255,255,.14);--fg:#f3f5ff;--mut:#a3abd0;--ac:#ff6a3d;--gold:#ffc94d;--ok:#4be3a5;--cy:#5ee0ff;
 --disp:"Barlow Condensed","Arial Narrow",Impact,sans-serif;--sans:Inter,"Segoe UI",system-ui,sans-serif;
@@ -288,18 +288,30 @@ svg.rk{overflow:visible;display:block}
 .rkr{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13px;color:var(--gold)}
 .rkr svg{width:28px;height:28px;flex:none}
 @media (prefers-reduced-motion:reduce){.rk-spin,.rk-pu,.rk-tw,.rk-sh,.rko *{animation:none!important}.rk-tw{opacity:1}.rk-sh{display:none}}
+.brand{font:600 21px Cinzel,Georgia,serif;letter-spacing:.16em;text-transform:uppercase}.brand .am{width:30px;height:30px;flex:none}
+.sc2{border:1px solid var(--line);border-radius:20px;padding:14px 16px 16px;margin-top:12px;text-align:center}
+.rm{display:flex;justify-content:space-between;font-weight:600;font-size:14px}.hp3{color:#ff6a7a;letter-spacing:2px}
+.mo{width:170px;margin:10px auto 0;position:relative}.mo svg{width:100%;display:block}
+.mo.hit,.mo.hurt{animation:shk .35s}.mo.die{animation:die .8s forwards}
+.dmg{position:absolute;top:0;right:6px;font:italic 800 34px var(--disp);color:var(--gold);animation:upx .7s forwards}
+.mn{display:block;font:italic 800 24px var(--disp);margin:4px 0 8px}
+.sc2 small{color:var(--mut);font-size:12px;display:block;margin:3px 0 8px}
+#gc{width:132px;float:right;border-radius:12px;border:1px solid var(--line);margin-top:10px}
+@keyframes shk{25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
+@keyframes die{to{opacity:0;transform:scale(.6) translateY(20px)}}
+@keyframes upx{to{opacity:0;transform:translateY(-30px)}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5.1675469404/pose.js"></script>
 </head>
 <body><div class="wrap">
-<header class="top"><div class="brand"><i></i>Calix</div><div class="hr"><button class="mini" id="rkb" data-rank aria-label="Mon rang"></button><button class="mini" id="tg" aria-label="Ouvrir mes séances"></button></div></header>
+<header class="top"><div class="brand"><svg class="am" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe9a8"/><stop offset="1" stop-color="#d9a233"/></linearGradient></defs><path d="M20 9L8 36M20 9l12 27" stroke="url(#ag)" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.6 27h14.8" stroke="url(#ag)" stroke-width="2.2" stroke-linecap="round"/><path d="M20 .8l1.5 3.7 3.7 1.5-3.7 1.5L20 11.2l-1.5-3.7-3.7-1.5 3.7-1.5z" fill="#ffe9a8"/></svg>Astral</div><div class="hr"><button class="mini" id="rkb" data-rank aria-label="Mon rang"></button><button class="mini" id="tg" aria-label="Ouvrir mes séances"></button></div></header>
 <section id="pgA"><div class="hero"><p id="fig" class="wait">Choisis ta figure</p><p id="st">Choisis ta figure, puis lance la caméra ou importe une vidéo.</p></div>
 <label class="pick" for="sel">Figure à analyser</label><select id="sel"></select>
 <details class="dm" id="dm"><summary>Voir comment faire le mouvement</summary><div id="dmb"></div></details>
 <div class="stage"><canvas id="c" width="640" height="360"></canvas><video id="v" playsinline muted></video><div class="bar"><div id="bf"></div></div></div>
 <div class="row"><button id="cam">Caméra en direct</button><label class="b">Importer une vidéo<input id="file" type="file" accept="video/*"></label></div>
 <div class="row"><button id="flip" class="alt">Inverser l'image</button><button id="stop" class="alt">Arrêter</button></div>
-<div class="live"><div><b id="n">–</b><span>note finale / 100</span></div><div><b id="tm">0.0</b><span>secondes tenues</span></div></div>
+<div class="live"><div><b id="n">–</b><span id="l1">note finale / 100</span></div><div><b id="tm">0.0</b><span id="l2">secondes tenues</span></div></div>
 <div id="list"></div>
 <div id="res" class="res" hidden></div>
 <h3>Mes séances</h3>
@@ -309,8 +321,9 @@ svg.rk{overflow:visible;display:block}
 <section id="pgR" hidden><h3 style="margin-top:0">Mes records</h3><div id="stats"></div></section>
 <section id="pgS" hidden><div id="prog" class="pg"></div></section>
 <section id="pgP" hidden><div id="pgrog" class="pr"></div></section>
+<section id="pgD" hidden><div id="dj" class="pg"></div><canvas id="gc" width="160" height="90" hidden></canvas></section>
 </div>
-<nav class="tabs" aria-label="Navigation"><div><button class="tab on" data-p="analyse" aria-label="Analyse" title="Analyse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M21 21l-5.2-5.2"/></svg></button><button class="tab" data-p="seances" aria-label="Séances" title="Séances"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9.5v5M20.5 9.5v5M6.5 12h11"/></svg></button><button class="tab" data-p="progression" aria-label="Progression" title="Progression"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h5v-5h5v-5h5V5h3"/></svg></button><button class="tab" data-p="stats" aria-label="Stats" title="Stats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V11M12 21V4M19 21v-8"/></svg></button></div></nav>
+<nav class="tabs" aria-label="Navigation"><div><button class="tab on" data-p="analyse" aria-label="Analyse" title="Analyse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M21 21l-5.2-5.2"/></svg></button><button class="tab" data-p="seances" aria-label="Séances" title="Séances"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9.5v5M20.5 9.5v5M6.5 12h11"/></svg></button><button class="tab" data-p="progression" aria-label="Progression" title="Progression"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h5v-5h5v-5h5V5h3"/></svg></button><button class="tab" data-p="stats" aria-label="Stats" title="Stats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V11M12 21V4M19 21v-8"/></svg></button><button class="tab" data-p="donjon" aria-label="Donjon" title="Donjon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V10a7 7 0 0114 0v11M3 21h18M12 21v-6"/></svg></button></div></nav>
 <div class="ob" id="ob" hidden role="dialog" aria-modal="true" aria-label="Questionnaire de Volt"><div class="ob-in" id="obin"></div></div>
 <script>
 const $=s=>document.querySelector(s);
@@ -347,7 +360,7 @@ const UNL_SEC=20,UNL_SCORE=90;
 let pose=null,running=false,busy=false,stream=null,flip=true;
 let ema={},cand=null,act=null,lastT=0;
 const now=()=>stream?performance.now()/1000:v.currentTime;
-const status=t=>$('#st').textContent=t;
+const status=t=>{$('#st').textContent=t;const g=$('#gst');if(g)g.textContent=t};
 
 function metrics(lm,W,H){
   const L=[11,13,15,23,25,27],R=[12,14,16,24,26,28];
@@ -356,7 +369,7 @@ function metrics(lm,W,H){
   const P=i=>({x:lm[i].x*W,y:lm[i].y*H});
   const [s,e,w,h,k,a]=side.map(P),nose=P(0);
   const dir=Math.sign(nose.x-h.x)||1,t=Math.hypot(s.x-h.x,s.y-h.y)||1;
-  return{E:ang(s,e,w),H:ang(s,h,k),K:ang(h,k,a),B:hz(s,a),T:hz(s,h),L:(s.x-w.x)*dir/t,Hh:(s.y-h.y)/t,F:(w.y-a.y)/t,G:(h.y-a.y)/t,N:(w.y-nose.y)/t,W:(s.y-w.y)/t};
+  return{A:ang(s,h,a),E:ang(s,e,w),H:ang(s,h,k),K:ang(h,k,a),B:hz(s,a),T:hz(s,h),L:(s.x-w.x)*dir/t,Hh:(s.y-h.y)/t,F:(w.y-a.y)/t,G:(h.y-a.y)/t,N:(w.y-nose.y)/t,W:(s.y-w.y)/t};
 }
 function scoreFig(f,M){
   const parts=f[2].map(([m,lo,hi,mg,wt])=>({m,wt,lo,hi,val:M[m],f:band(M[m],lo,hi,mg)}));
@@ -386,7 +399,7 @@ function renderList(parts){
     return `<div class="c ${good?'ok':'ko'}"><b><span>${good?'✓':'✗'} ${mi[0]}</span><span>${Math.round(p.wt*p.f)}/${p.wt}</span></b><span class="t">${fm(p.val)} · cible ${fm(p.lo)} à ${fm(p.hi)}${good?'':' — '+(p.val<p.lo?mi[3]:mi[4])}</span></div>`}).join('');
 }
 function setHero(name,tmp){const h=$('#fig');$('.stage').classList.toggle('on',!!name);h.textContent=name||tmp||'En attente d\'une figure';h.className=name?'':'wait'}
-function miss(t){cand=null;if(act&&t-act.last>GRACE)finish()}
+function miss(t){if(rp&&t-rp.last>2.5)finishReps();cand=null;if(act&&t-act.last>GRACE)finish()}
 
 function finish(){
   const a=act;act=null;cand=null;ema={};lastT=0;
@@ -430,7 +443,7 @@ function addRec(id,avg,peak,dur,d){
 }
 if(!REC||typeof REC!=='object'){REC={};HIST.slice().reverse().forEach(e=>{if(e&&e.f)addRec(e.f,e.avg,e.peak,e.dur,e.d)});try{localStorage.setItem('fd_rec',JSON.stringify(REC))}catch(e){}}
 function renderHist(){
-  $('#hl').innerHTML=HIST.length?HIST.slice(0,8).map(e=>{const d=new Date(e.d);return`<div class="h"><span>${NAME[e.f]||e.f}<small>${d.toLocaleDateString('fr-FR')} ${d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}</small></span><span>${e.avg} / 100<small>${e.dur.toFixed(1)} s</small></span></div>`}).join(''):'<p style="color:var(--mut);font-size:14px;margin:6px 0">Aucune figure enregistrée pour le moment.</p>';
+  $('#hl').innerHTML=HIST.length?HIST.slice(0,8).map(e=>{const d=new Date(e.d);return`<div class="h"><span>${NAME[e.f]||e.f}<small>${d.toLocaleDateString('fr-FR')} ${d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}</small></span><span>${e.reps?e.reps+" reps":e.avg+" / 100"}<small>${e.reps?"forme "+e.avg+" / 100":e.dur.toFixed(1)+" s"}</small></span></div>`}).join(''):'<p style="color:var(--mut);font-size:14px;margin:6px 0">Aucune figure enregistrée pour le moment.</p>';
 }
 renderHist();
 $('#sel').innerHTML=FIGS.map(f=>`<option value="${f[0]}">${f[1]}</option>`).join('');
@@ -452,7 +465,7 @@ function stopAll(){
   running=false;
   if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}
   v.pause();v.srcObject=null;v.removeAttribute('src');
-  if(act)finish();ema={};cand=null;
+  if(act)finish();if(rp)finishReps();ema={};cand=null;
 }
 async function loop(){
   if(!running)return;
@@ -484,9 +497,10 @@ function onRes(r){
   x.lineWidth=Math.max(3,W/160);x.strokeStyle='#4dd4ff';x.fillStyle='#ffd43b';
   BONES.forEach(([i,j])=>{if(lm[i].visibility>.4&&lm[j].visibility>.4){x.beginPath();x.moveTo(lm[i].x*W,lm[i].y*H);x.lineTo(lm[j].x*W,lm[j].y*H);x.stroke()}});
   [0,11,12,13,14,15,16,23,24,25,26,27,28].forEach(i=>{if(lm[i].visibility>.4){x.beginPath();x.arc(lm[i].x*W,lm[i].y*H,x.lineWidth*1.3,0,7);x.fill()}});
-  x.restore();
+  x.restore();if(GM.on)gx.drawImage(c,0,0,160,90);
   const M=metrics(lm,W,H);
   if(!M){miss(t);status('Filme-toi de profil, corps entier visible.');return}
+  if(GM.on||REPS[$('#sel').value]){trackReps(t,M);return}
   const f=FIGS.find(f=>f[0]===$('#sel').value),R={[f[0]]:scoreFig(f,M)};
   track(t,R);
 }
@@ -710,7 +724,7 @@ function mountAnim(el,key){
  LIVE.add(en);if(!anOn){anOn=1;requestAnimationFrame(anLoop)}
 }
 /* texte d'exercice -> animation (a) et figure analysable (f) */
-const XM=[[/^L-sit au sol/,'ls','ls'],[/pseudo-planche/,'pseudo','pll'],[/verticales|Superman|Arch hold/],[/^Pompes/,'pu'],[/^Dips/,'dip'],[/^Tractions/,'pull'],[/^Rowing|^Rows/,'row'],[/^Hollow/,'hollow'],[/genoux suspendu/,'kraise'],[/jambes tendues à la barre/,'lraise'],[/^Relevés de jambes/,'floor'],[/^Planche gainage/,'plank']];
+const XM=[[/^L-sit au sol/,'ls','ls'],[/pseudo-planche/,'pseudo','pll'],[/verticales|Superman|Arch hold/],[/^Pompes(?! pseudo| archer)/,'pu','pu'],[/^Dips/,'dip'],[/^Tractions/,'pull'],[/^Rowing|^Rows/,'row'],[/^Hollow/,'hollow'],[/genoux suspendu/,'kraise'],[/jambes tendues à la barre/,'lraise'],[/^Relevés de jambes/,'floor'],[/^Planche gainage/,'plank']];
 function meta(t){
  for(const f of FIGS)if(new RegExp('^'+f[1]+' : \\d').test(t))return{a:AN[f[0]]?f[0]:null,f:f[0]};
  for(const r of XM)if(r[0].test(t))return{a:r[1]||null,f:r[2]||null};
@@ -1231,5 +1245,61 @@ rkHead();
 if(PROF&&!LS.get('fd_rp')){rkCheck();setTimeout(()=>rkShow('start'),900)}
 if(!PROF&&!LS.get('fd_skip'))openOb();
 if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol))window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+
+/* ===== Astral : pompes comptées + donjon ===== */
+NAME.pu="Pompes";const REPS={pu:1};
+let RP=LS.get("astral_pu")||{best:0,tot:0,form:0,n:0},DJR=LS.get("astral_dj")||{room:0,reps:0},rp=null;
+const gc=$("#gc"),gx=gc.getContext("2d"),GM={on:0,dj:0};
+$("#sel").insertAdjacentHTML("beforeend",'<optgroup label="Répétitions"><option value="pu">Pompes</option></optgroup>');
+{const o=$("#sel").onchange;$("#sel").onchange=()=>{if(rp)finishReps();o();const r=!!REPS[$("#sel").value];$("#l1").textContent=r?"forme / 100":"note finale / 100";$("#l2").textContent=r?"répétitions comptées":"secondes tenues";$("#tm").textContent=r?"0":"0.0"}}
+function trackReps(t,M){
+ if(!(M.B<40&&M.A>120)){if(rp&&t-rp.last>2.5)finishReps();else if(!rp)status("Mets-toi en position de pompe, de profil, corps entier visible.");return}
+ if(!rp){rp={t0:t,last:t,reps:[],ph:"up",mn:180,al:180,top:0,e:M.E};if(!GM.on){$("#res").hidden=true;$("#list").innerHTML="";$("#n").textContent="…";$("#tm").textContent="0"}}
+ rp.last=t;const e=rp.e=rp.e*.5+M.E*.5;rp.mn=Math.min(rp.mn,e);rp.al=Math.min(rp.al,M.A);rp.top=Math.max(rp.top,e);
+ if(rp.ph==="up"&&e<115)rp.ph="down";
+ else if(rp.ph==="down"&&e>150){
+  rp.ph="up";
+  if(rp.mn<=105){const r={mn:rp.mn,al:rp.al,s:Math.round(100*(.5*band(rp.mn,0,90,35)+.35*band(rp.al,165,180,30)+.15*band(rp.top,165,180,25)))};rp.reps.push(r);$("#tm").textContent=rp.reps.length;status(rp.reps.length+" pompe"+(rp.reps.length>1?"s":"")+" !");if(GM.on)gmHit(r.s)}
+  else status("Pompe non comptée : descends plus bas (coudes à 90°).");
+  rp.mn=180;rp.al=180;rp.top=0;
+ }
+}
+function finishReps(){
+ const a=rp;rp=null;if(GM.on)return;
+ const n=a?a.reps.length:0;
+ if(!n){$("#n").textContent="–";$("#tm").textContent="0";status("Aucune pompe complète détectée.");return}
+ const sc=a.reps.map(r=>r.s),avg=Math.round(sc.reduce((q,w)=>q+w,0)/n),dp=a.reps.reduce((q,r)=>q+band(r.mn,0,90,35),0)/n,al=a.reps.reduce((q,r)=>q+band(r.al,165,180,30),0)/n;
+ const tip=dp<al?"Descends plus bas : vise des coudes à 90°.":"Garde le corps aligné : bassin ni trop haut, ni affaissé.",rec=n>RP.best&&RP.n>0,dur=+(a.last-a.t0).toFixed(1);
+ RP.best=Math.max(RP.best,n);RP.form=Math.max(RP.form,avg);RP.tot+=n;RP.n++;LS.set("astral_pu",RP);
+ $("#n").textContent=avg;$("#tm").textContent=n;$("#res").hidden=false;
+ $("#res").innerHTML=`<h2>Pompes</h2><div class="big">${n}<small> répétitions · forme ${avg} / 100</small></div>${rec?"<p><b>🏆 Nouveau record de répétitions !</b></p>":""}<p>Meilleure pompe ${Math.max(...sc)} / 100 · ${dur} s</p><p><b>À travailler :</b> ${tip}</p>`;
+ HIST.unshift({d:Date.now(),f:"pu",avg,peak:Math.max(...sc),dur,reps:n});HIST=HIST.slice(0,30);try{localStorage.setItem("fd_hist",JSON.stringify(HIST))}catch(e){}
+ renderHist();status("Série terminée. Reprends la position pour une nouvelle série.");
+}
+{const rs=renderStats;renderStats=function(){rs();if(RP.n)$("#stats").insertAdjacentHTML("beforeend",`<div class="rc"><h4>Pompes<small>${RP.n} série${RP.n>1?"s":""}</small></h4><div class="g"><div><b>${RP.best}</b><span>Record de répétitions</span></div><div><b>${RP.form}<i>/100</i></b><span>Meilleure forme</span></div></div><p class="m">${RP.tot} pompes au total${DJR.room?" · Donjon : salle "+DJR.room:""}</p></div>`)}}
+/* donjon */
+const DJ=[["Crypte","#2a2f6b",1,"Difficulté douce"],["Forêt maudite","#1d4d3a",1.4,"Monstres plus costauds"],["Volcan","#6b2a1f",1.8,"Pour les costauds"]];
+const MN=[["Gelée","#4be3a5"],["Chauve-souris","#a78bfa"],["Crâne","#e8e8f0"],["Gobelin","#8bd450"],["Spectre","#5ee0ff"],["Golem","#c08a5a"],["Diablotin","#ff6a3d"],["Dragon","#ffc94d"]];
+function monSvg(i,b){const c=MN[i%8][1],k=i%3;return `<svg viewBox="0 0 120 120" aria-hidden="true"><ellipse cx="60" cy="108" rx="34" ry="6" fill="#0006"/>${k==0?`<path d="M20 100Q14 40 60 30Q106 40 100 100Z" fill="${c}"/>`:k==1?`<path d="M60 24L96 44L104 92Q60 112 16 92L24 44Z" fill="${c}"/><path d="M30 40L18 14L46 32ZM90 40L102 14L74 32Z" fill="${c}"/>`:`<circle cx="60" cy="62" r="38" fill="${c}"/>`}<circle cx="45" cy="60" r="9" fill="#fff"/><circle cx="75" cy="60" r="9" fill="#fff"/><circle cx="47" cy="62" r="4" fill="#1b1f55"/><circle cx="73" cy="62" r="4" fill="#1b1f55"/><path d="M42 84Q60 96 78 84" stroke="#1b1f55" stroke-width="4" fill="none" stroke-linecap="round"/>${b?'<path d="M34 34L40 14L52 28L60 8L68 28L80 14L86 34Z" fill="#ffc94d"/>':""}</svg>`}
+function spawn(){const b=GM.room%5===0;GM.boss=b;GM.mon=MN[(GM.room-1)%8][0];GM.max=GM.hp=Math.round((3+GM.room*2)*DJ[GM.dj][2]*(b?1.6:1));GM.t=performance.now();GM.lim=GM.room===1?25:10;dj()}
+function gmHit(s){const d=s>=85?2:1;GM.reps++;GM.hp=Math.max(0,GM.hp-d);GM.t=performance.now();GM.fx="hit";GM.dmg=d;
+ if(GM.hp<=0){GM.room++;GM.fx="die";dj();setTimeout(()=>{if(GM.on)spawn()},900)}else dj()}
+function gmTick(){if(!GM.on||GM.hp<=0)return;const l=GM.lim-(performance.now()-GM.t)/1000;
+ if(l<=0){GM.hearts--;GM.t=performance.now();GM.lim=10;GM.fx="hurt";if(GM.hearts<=0){gmEnd();return}dj();return}
+ const b=$("#gch");if(b)b.style.width=Math.max(0,l/GM.lim*100)+"%"}
+function gmStop(){GM.on=0;clearInterval(GM.iv);rp=null;stopAll()}
+function gmEnd(){DJR.room=Math.max(DJR.room,GM.room);DJR.reps+=GM.reps;LS.set("astral_dj",DJR);GM.over=1;gmStop();dj()}
+async function gmGo(){
+ stopAll();if(!await init())return;
+ try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user",width:{ideal:1280}}});v.srcObject=stream;await v.play();running=true;loop()}
+ catch(e){status("Caméra inaccessible : autorise-la dans ton navigateur.");return}
+ Object.assign(GM,{on:1,room:1,hearts:3,reps:0,over:0,fx:""});spawn();GM.iv=setInterval(gmTick,250)}
+function dj(){
+ const d=$("#dj"),T=DJ[GM.dj];gc.hidden=!GM.on;
+ if(!GM.on){d.innerHTML=`<div class="pghead"><h2>Donjon</h2></div><p class="sub">Chaque pompe complète blesse le monstre. Reste actif : s'il charge son attaque, tu perds un cœur.</p>${GM.over?`<div class="res"><h2>Défaite !</h2><div class="big">${GM.room}<small> salle atteinte · ${GM.reps} pompes</small></div></div>`:""}${DJR.room?`<p class="note">Record : salle ${DJR.room} · ${DJR.reps} pompes dans les donjons</p>`:""}<div class="opts">${DJ.map((q,i)=>`<button class="opt${i==GM.dj?" sel":""}" data-dj="${i}">${q[0]}<small>${q[3]}</small></button>`).join("")}</div><button class="fin" id="gmgo">Entrer dans le donjon</button><p id="gst" class="note">Pose le téléphone au sol, de profil, corps entier visible.</p>`;return}
+ d.innerHTML=`<div class="sc2" style="background:linear-gradient(180deg,${T[1]},#05081c)"><div class="rm"><span>${T[0]} · Salle ${GM.room}</span><span class="hp3">${"♥".repeat(GM.hearts)+"♡".repeat(3-GM.hearts)}</span></div><div class="mo ${GM.fx}">${monSvg(GM.room-1,GM.boss)}${GM.fx==="hit"?`<i class="dmg">-${GM.dmg}</i>`:""}</div><b class="mn">${GM.boss?"Boss · ":""}${GM.mon}</b><div class="pbar"><i style="width:${GM.hp/GM.max*100}%"></i></div><small>${GM.hp} / ${GM.max} PV · pompe propre = coup critique</small><div class="pbar"><i id="gch" style="width:100%;background:#ff6a7a"></i></div><small>Charge de l'attaque du monstre</small></div><p id="gst" class="note"></p><button class="alt fin" id="gmx">Quitter le donjon</button>`;GM.fx="";
+}
+$("#dj").onclick=e=>{const b=e.target.closest("button");if(!b)return;if(b.dataset.dj!=null){GM.dj=+b.dataset.dj;dj()}else if(b.id==="gmgo")gmGo();else if(b.id==="gmx"){GM.over=0;gmStop();dj()}};
+{const g0=go;go=function(p){if(p!=="donjon"&&GM.on)gmStop();g0(p);const d=p==="donjon";$("#pgD").hidden=!d;if(d){$("#pgA").hidden=true;dj();try{history.replaceState(null,"","#donjon")}catch(e){}}document.querySelectorAll(".tab").forEach(b=>{const on=b.dataset.p===p;b.classList.toggle("on",on);b.setAttribute("aria-current",on?"page":"false")})}}
 </script>
 </body></html>
