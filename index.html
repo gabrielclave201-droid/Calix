@@ -1268,26 +1268,38 @@ let RP=LS.get("astral_pu")||{best:0,tot:0,form:0,n:0},DJR=LS.get("astral_dj")||{
 const GM={on:0};
 $("#sel").insertAdjacentHTML("beforeend",'<optgroup label="Répétitions"><option value="pu">Pompes</option></optgroup>');
 {const o=$("#sel").onchange;$("#sel").onchange=()=>{if(rp)finishReps();o();const r=!!REPS[$("#sel").value];$("#l1").textContent=r?"forme / 100":"note finale / 100";$("#l2").textContent=r?"répétitions comptées":"secondes tenues";$("#tm").textContent=r?"0":"0.0"}}
+/* Détection des pompes tolérante : caméra inclinée vers le sol, tête baissée, mains mal vues */
+const HPT=[[15,19,17,21],[16,20,18,22]];/* poignet, index, auriculaire, pouce de chaque main */
+function handPt(lm,k){let b=null;for(const i of HPT[k]){const q=lm[i],v=q?(q.visibility||0):0;if(v>=.2&&(!b||v>b.v))b={y:q.y,v}}return b}
 function frontM(lm,W,H){
- const a=lm[11],b=lm[12],c1=lm[15],d1=lm[16];
- if([a,b,c1,d1].some(q=>(q.visibility||0)<.4))return null;
+ const a=lm[11],b=lm[12];
+ if(!a||!b||(a.visibility||0)<.25||(b.visibility||0)<.25)return null;
  const sw=Math.hypot((a.x-b.x)*W,(a.y-b.y)*H);if(sw<10)return null;
- return{d:((c1.y+d1.y)/2-(a.y+b.y)/2)*H/sw,tilt:Math.abs(a.y-b.y)*H/sw};
+ const hs=[handPt(lm,0),handPt(lm,1)].filter(Boolean);
+ return{sy:(a.y+b.y)/2,sw,hy:hs.length?hs.reduce((q,h)=>q+h.y,0)/hs.length:null,tilt:Math.abs(a.y-b.y)*H/sw};
 }
 function trackReps(t,lm,W,H){
- const F=frontM(lm,W,H);
- if(!F||F.d<.15){if(rp&&t-rp.last>2.5)finishReps();else if(!rp)status("Place-toi face au téléphone, en position de pompe, épaules et mains visibles.");return}
- if(!rp){rp={t0:t,last:t,reps:[],ph:"up",mn:9,hi:0,tilt:0,top:F.d,e:F.d};if(!GM.on){$("#res").hidden=true;$("#list").innerHTML="";$("#n").textContent="…";$("#tm").textContent="0"}}
- rp.last=t;const e=rp.e=rp.e*.3+F.d*.7;rp.top=Math.max(rp.top,e);const r=e/rp.top;
+ const F=frontM(lm,W,H),msg0="Place-toi face au téléphone, en position de pompe, épaules et mains visibles.";
+ if(!F){if(rp&&t-rp.last>2.5)finishReps();else if(!rp)status(msg0);return}
+ /* les mains restent au sol pendant la pompe : si elles disparaissent, on garde leur dernière position */
+ let hy=F.hy;if(hy==null){if(!rp){status(msg0);return}hy=rp.hy}
+ const sw0=rp?rp.sw:F.sw,d0=(hy-F.sy)*H/sw0;
+ if(!rp&&d0<.1){status(msg0);return}
+ if(!rp){rp={t0:t,last:t,reps:[],ph:"up",mn:9,hi:0,tilt:0,top:d0,e:d0,hy,sw:F.sw,r:1};if(!GM.on){$("#res").hidden=true;$("#list").innerHTML="";$("#n").textContent="…";$("#tm").textContent="0"}}
+ rp.last=t;
+ if(F.hy!=null)rp.hy=rp.hy*.8+F.hy*.2;
+ rp.sw=rp.sw*.92+F.sw*.08;/* échelle lissée : stable même quand la caméra regarde vers le sol */
+ const d=(rp.hy-F.sy)*H/rp.sw;
+ const e=rp.e=rp.e*.3+d*.7;rp.top=Math.max(e,rp.top*.9997);const r=rp.r=e/rp.top;
  rp.mn=Math.min(rp.mn,r);rp.hi=Math.max(rp.hi,r);rp.tilt=Math.max(rp.tilt,F.tilt);
- if(rp.ph==="up"&&r<.78){rp.ph="down";rp.hi=0}
- else if(rp.ph==="down"&&r>.86){
+ if(rp.ph==="up"&&r<.8){rp.ph="down";rp.hi=0}
+ else if(rp.ph==="down"&&r>.88){
   rp.ph="up";
-  if(rp.mn<=.72){const q={mn:rp.mn,hi:1,tilt:rp.tilt,s:0};q.s=Math.round(100*(.65*band(q.mn,0,.6,.25)+.2*band(r,.95,1,.1)+.15*band(q.tilt,0,.12,.2)));rp.reps.push(q);$("#tm").textContent=rp.reps.length;rp.msg="Pompe comptée !";if(GM.on)gmHit()}
+  if(rp.mn<=.77){const q={mn:rp.mn,hi:1,tilt:rp.tilt,s:0};q.s=Math.round(100*(.65*band(q.mn,0,.6,.25)+.2*band(r,.95,1,.1)+.15*band(q.tilt,0,.12,.2)));rp.reps.push(q);$("#tm").textContent=rp.reps.length;rp.msg="Pompe comptée !";if(GM.on)gmHit()}
   else rp.msg="Pompe non comptée : descends plus bas, poitrine près du sol.";
   rp.mn=9;rp.tilt=0;
  }
- status((rp.msg||"Position repérée, descends.")+" · "+rp.reps.length+" pompe"+(rp.reps.length>1?"s":"")+" · descente "+Math.round((1-r)*100)+" %");
+ status((rp.msg||"Position repérée, descends.")+" · "+rp.reps.length+" pompe"+(rp.reps.length>1?"s":"")+" · descente "+Math.round((1-r)*100)+" %"+(F.hy==null?" · mains hors champ":""));
 }
 function drawCnt(W,H){
  if(!(GM.on||REPS[$("#sel").value]))return;
@@ -1362,7 +1374,7 @@ async function gmGo(){
  try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user",width:{ideal:1280}}});v.srcObject=stream;await v.play();running=true;loop()}
  catch(e){GM.pend=0;status("Caméra inaccessible : autorise-la dans ton navigateur.");return}
  GM.pend=0;GM.id=(GM.id||0)+1;rp=null;Object.assign(GM,{on:1,room:1,life:maxLife(),maxL:maxLife(),gold:0,reps:0,over:0});spawn();GM.iv=setInterval(gmTick,100)}
-{const i0=init;init=async function(){const ok=await i0();if(ok){const f=!!(GM.on||GM.pend||REPS[$("#sel").value]);if(pose._f!==f){pose._f=f;try{pose.setOptions({modelComplexity:f?0:1,smoothLandmarks:!f})}catch(e){}}}return ok}}
+{const i0=init;init=async function(){const ok=await i0();if(ok){const f=!!(GM.on||GM.pend||REPS[$("#sel").value]);if(pose._f!==f){pose._f=f;try{pose.setOptions(f?{modelComplexity:1,smoothLandmarks:true,minDetectionConfidence:.3,minTrackingConfidence:.3}:{modelComplexity:1,smoothLandmarks:true,minDetectionConfidence:.5,minTrackingConfidence:.5})}catch(e){}}}return ok}}
 function dj(){
  const d=$("#dj");
  if(!GM.on){dm();return}
@@ -1427,7 +1439,7 @@ function prof(){const eq=INV.eq;
 
 /* ===== codes cadeaux ===== */
 let GFT=LS.get("astral_gc")||{own:[],used:[]};GFT.own=GFT.own||[];GFT.used=GFT.used||[];
-const GSP={"CALIX-1800":1800},GTIERS=[100,250,500,1000];
+const GSP={"CALIX-1800":1800,"CALIX-100000":100000},GTIERS=[100,250,500,1000];
 const gck=(a,r)=>{let h=7;for(const c of"calix|"+a+"|"+r)h=(h*31+c.charCodeAt(0))%46656;return h.toString(36).toUpperCase().padStart(3,"0")};
 function gval(raw){const c=String(raw||"").toUpperCase().replace(/\s+/g,"");if(GSP[c])return{c,a:GSP[c]};const m=/^CALIX-(\d{1,6})-([A-Z0-9]{4})-([A-Z0-9]{3})$/.exec(c);if(m&&+m[1]>0&&gck(m[1],m[2])===m[3])return{c,a:+m[1]};return null}
 function gsave(){LS.set("astral_gc",GFT);LS.set("astral_dj",DJR)}
