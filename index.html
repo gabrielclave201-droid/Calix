@@ -314,6 +314,8 @@ svg.rk{overflow:visible;display:block}
 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0;text-align:center}.g3 b{display:block;font:italic 800 28px var(--disp);color:var(--gold)}.g3 span{font-size:12px;color:var(--mut)}
 .sl h4{margin:12px 0 6px}.chips{display:flex;flex-wrap:wrap;gap:6px}.chips button{padding:8px 12px;border-radius:12px;border:1px solid var(--line);background:transparent;color:inherit;font-weight:600}
 .it em{display:block;font-style:normal;font-size:12px;font-weight:700}.bt.off{background:transparent;color:inherit;border:1px solid var(--line)}.ih{margin:16px 0 4px;font-size:18px}.ih small{color:var(--mut);font-weight:400;font-size:13px}
+.rv{border:1px solid var(--gold);border-radius:16px;padding:10px;margin:10px 0;display:grid;gap:8px;animation:pop .4s}.rv h4{margin:0}@keyframes pop{from{transform:scale(.92);opacity:0}}.nw{font-size:12px;font-weight:700;color:var(--gold);text-align:center}.it em{color:var(--gold)}
+.bts{display:flex;flex-direction:column;gap:6px;align-items:stretch}.it .bts{flex:none}.bts small{color:var(--mut);text-align:center}.bts .bt{font-size:13px;padding:8px 10px}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5.1675469404/pose.js"></script>
 </head>
@@ -1382,10 +1384,12 @@ const ITEMS=[
 {id:"bottesF",slot:"bottes",n:"Bottes de fer",pv:8,p:120,m:"ir",r:"c"},
 {id:"bottesO",slot:"bottes",n:"Bottes d'or",pv:16,p:700,m:"au",r:"e"}];
 const SLOTS={arme:"Arme",casque:"Casque",plastron:"Plastron",gants:"Gantelets",bottes:"Bottes"};
-let INV=LS.get("astral_inv")||{own:[],eq:{}};INV.own=INV.own||[];INV.eq=INV.eq||{};
+let INV=LS.get("astral_inv")||{own:[],eq:{}};INV.own=INV.own||[];INV.eq=INV.eq||{};INV.lv=INV.lv||{};INV.pts=INV.pts||0;
 const IT=id=>ITEMS.find(i=>i.id===id),eqI=s=>IT(INV.eq[s]);
-const wDmg=()=>{const w=eqI("arme");return w?w.dmg:8};
-const maxLife=()=>100+["casque","plastron","gants","bottes"].reduce((q,s)=>q+((eqI(s)||{}).pv||0),0);
+const LV=id=>INV.lv[id]||0,MAXLV=5,val=(it,l)=>Math.round((it.dmg||it.pv)*(1+.1*(l===undefined?LV(it.id):l))),GB={c:100,u:200,r:400,e:800,l:1500},DUP={c:1,u:2,r:4,e:8,l:15};
+const upCost=it=>{const n=LV(it.id)+1;return{pts:n,gold:n*GB[it.r]}};
+const wDmg=()=>{const w=eqI("arme");return w?val(w):8};
+const maxLife=()=>100+["casque","plastron","gants","bottes"].reduce((q,s)=>q+(eqI(s)?val(eqI(s)):0),0);
 const wVerb=()=>{const w=eqI("arme");return !w?"Coup de poing":w.k==="dague"?"Coup de dague":"Coup d'épée"};
 const gm=m=>"url(#g"+(m==="au"?"Au":m==="ac"?"St":m==="vi"?"Vi":"Ir")+")",MC={ir:"#aab4c8",ac:"#8fb4e8",au:"#ffc94d",vi:"#b57aff"};
 function AR(eq){let o="",a;const it=s=>IT(eq[s]);
@@ -1404,24 +1408,30 @@ function icon(it){const c=MC[it.m],o='stroke="#0b0e26" stroke-width="1.2" stroke
  else if(it.slot==="gants")b=`<rect x="5" y="12" width="9" height="15" fill="${c}"/><path d="M14 10h12q8 0 8 10t-8 10H14Z" fill="${c}"/>`;
  else b=`<path d="M12 5h12l1 19 10 5q3 2 3 7H9Z" fill="${c}"/>`;
  return `<svg viewBox="0 0 40 40" ${o} aria-hidden="true">${b}</svg>`}
-function buy(id){const it=IT(id);if(!it||INV.own.includes(id)||(DJR.gold||0)<it.p)return;DJR.gold-=it.p;LS.set("astral_dj",DJR);INV.own.push(id);INV.eq[it.slot]=id;LS.set("astral_inv",INV);dj()}
+const CH=[{n:"Coffre en bois",k:1,p:150,m:"#8a5a3a",w:{c:60,u:28,r:9,e:2.5,l:.5}},{n:"Coffre de fer",k:2,p:450,m:"#aab4c8",w:{c:40,u:32,r:18,e:8,l:2}},{n:"Coffre royal",k:3,p:1100,m:"#ffc94d",w:{c:20,u:30,r:28,e:16,l:6}}];
+const chestIcon=m=>`<svg viewBox="0 0 48 48" stroke="#0b0e26" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M6 22Q6 8 24 8Q42 8 42 22Z" fill="${m}"/><rect x="6" y="22" width="36" height="18" rx="2" fill="${m}"/><path d="M6 22H42M16 9V40M32 9V40" stroke="#0007" fill="none"/><rect x="21" y="19" width="6" height="9" rx="1.5" fill="#ffe08a"/></svg>`;
+function roll(w){let t=0,x,r="c";for(const k in w)t+=w[k];x=Math.random()*t;for(const k in w){x-=w[k];if(x<0){r=k;break}}const pl=ITEMS.filter(i=>i.r===r);return pl[Math.floor(Math.random()*pl.length)]}
+function openChest(n){const c=CH[n];if(!c||(DJR.gold||0)<c.p)return;DJR.gold-=c.p;LS.set("astral_dj",DJR);const out=[];
+ for(let i=0;i<c.k;i++){const it=roll(c.w),dup=INV.own.includes(it.id);if(dup)INV.pts+=DUP[it.r];else{INV.own.push(it.id);if(!INV.eq[it.slot])INV.eq[it.slot]=it.id}out.push({it,dup})}
+ LS.set("astral_inv",INV);GM.reveal=out;GM.view="shop";dj()}
+function upgrade(id){const it=IT(id);if(!it||!INV.own.includes(id)||LV(id)>=MAXLV)return;const c=upCost(it);if(INV.pts<c.pts||(DJR.gold||0)<c.gold)return;INV.pts-=c.pts;DJR.gold-=c.gold;INV.lv[id]=LV(id)+1;LS.set("astral_inv",INV);LS.set("astral_dj",DJR);dj()}
 const RAR={c:["Commun","#aab4c8"],u:["Peu commun","#4be3a5"],r:["Rare","#5aa9ff"],e:["Épique","#b57aff"],l:["Légendaire","#ffc94d"]};
-const stat=it=>it.dmg?"Dégâts : "+it.dmg+" par coup":"+"+it.pv+" PV max";
-const row=(it,btn,on)=>{const r=RAR[it.r];return `<div class="it" style="border-color:${r[1]}88">${icon(it)}<div><b>${it.n}</b><em style="color:${r[1]}">${r[0]}${on?" · Équipé ✓":""}</em><small>${stat(it)}</small></div>${btn}</div>`};
+const stat=it=>{const o=INV.own.includes(it.id),l=LV(it.id);return (it.dmg?"Dégâts : ":"PV max : +")+val(it)+(it.dmg?" par coup":"")+(o&&l<MAXLV?" → "+val(it,l+1):"")};
+const row=(it,btn,on)=>{const r=RAR[it.r],o=INV.own.includes(it.id);return `<div class="it" style="border-color:${r[1]}88">${icon(it)}<div><b>${it.n}</b><em style="color:${r[1]}">${r[0]}${o?" · Niv. "+LV(it.id)+"/"+MAXLV:""}${on?" · Équipé ✓":""}</em><small>${stat(it)}</small></div>${btn}</div>`};
 function prof(){const eq=INV.eq;
  const sv=`<svg class="arena" viewBox="0 0 360 190" role="img" aria-label="Ton chevalier">${BG}<ellipse cx="180" cy="166" rx="50" ry="7" fill="#0006"/><g transform="translate(122,28) scale(1.2)"><g class="kn">${knight(eq)}</g></g></svg>`;
  const st=`<div class="g3"><div><b>${maxLife()}</b><span>PV max</span></div><div><b>${wDmg()}</b><span>dégâts / coup</span></div><div><b>${DJR.room||0}</b><span>record salle</span></div></div>`;
  const own=Object.keys(SLOTS).map(k=>ITEMS.filter(i=>i.slot===k&&INV.own.includes(i.id))).reduce((a,b)=>a.concat(b),[]);
- const inv=own.length?own.map(it=>{const on=INV.eq[it.slot]===it.id;return row(it,`<button class="bt${on?" off":""}" data-eq="${it.slot}:${on?"":it.id}">${on?"Retirer":"Équiper"}</button>`,on)}).join(""):'<p class="note">Rien pour l\'instant : achète des objets au Magasin.</p>';
+ const inv=own.length?own.map(it=>{const on=INV.eq[it.slot]===it.id,c=upCost(it);return row(it,`<div class="bts"><button class="bt${on?" off":""}" data-eq="${it.slot}:${on?"":it.id}">${on?"Retirer":"Équiper"}</button>${LV(it.id)>=MAXLV?"<small>Niveau max</small>":`<button class="bt off" data-up="${it.id}" ${INV.pts>=c.pts&&(DJR.gold||0)>=c.gold?"":"disabled"}>Améliorer ⭐${c.pts} 🪙${c.gold}</button>`}</div>`,on)}).join(""):'<p class="note">Rien pour l\'instant : ouvre des coffres au Magasin.</p>';
  return sv+st+`<h4 class="ih">Inventaire <small>${own.length} objet${own.length>1?"s":""}</small></h4><div class="shop">${inv}</div>`}
 function dm(){const d=$("#dj"),v=GM.view||"menu",g=DJR.gold||0;
- let h=`<div class="pghead"><h2>${v==="shop"?"Magasin":v==="prof"?"Chevalier":"Donjon"}</h2><span class="gd">🪙 ${g}</span></div><div class="seg">${[["menu","Donjon"],["shop","Magasin"],["prof","Chevalier"]].map(a=>`<button data-v="${a[0]}" class="${a[0]===v?"on":""}">${a[1]}</button>`).join("")}</div>`;
+ let h=`<div class="pghead"><h2>${v==="shop"?"Magasin":v==="prof"?"Chevalier":"Donjon"}</h2><span class="gd">⭐ ${INV.pts} · 🪙 ${g}</span></div><div class="seg">${[["menu","Donjon"],["shop","Magasin"],["prof","Chevalier"]].map(a=>`<button data-v="${a[0]}" class="${a[0]===v?"on":""}">${a[1]}</button>`).join("")}</div>`;
  if(v==="menu")h+=`<p class="sub">Un donjon infini. Chaque monstre a des PV et attaque un certain nombre de fois : fais plus de pompes que ce nombre en ${GC.round} s pour le frapper (les armes font plus mal que le poing). Sinon, tu perds de la vie. Chaque monstre vaincu te rapporte des pièces d'or à dépenser au Magasin.</p>${GM.over?`<div class="res"><h2>Défaite !</h2><div class="big">${GM.room}<small> salle atteinte · ${GM.reps} pompes · ${GM.gold} 🪙</small></div></div>`:""}${DJR.room?`<p class="note">Record : salle ${DJR.room} · ${DJR.reps} pompes</p>`:""}<button class="fin" id="gmgo">Entrer dans le donjon</button><p id="gst" class="note">Pose le téléphone au sol, face à toi : épaules et mains bien visibles.</p>`;
- else if(v==="shop")h+=`<p class="sub">Les armes augmentent tes dégâts, les pièces d'armure ta vie maximale. Plus un objet est rare, plus il est puissant (et cher).</p><div class="shop">${ITEMS.map(it=>row(it,INV.own.includes(it.id)?'<button class="bt" disabled>Possédé</button>':`<button class="bt" data-buy="${it.id}" ${g<it.p?"disabled":""}>🪙 ${it.p}</button>`,0)).join("")}</div>`;
+ else if(v==="shop")h+=`${GM.reveal?`<div class="rv"><h4>Tu as obtenu :</h4>${GM.reveal.map(o=>row(o.it,`<span class="nw">${o.dup?"Doublon<br>+"+DUP[o.it.r]+" ⭐":"Nouveau !"}</span>`,0)).join("")}<button class="bt" data-ok="1">OK</button></div>`:""}<p class="sub">Ouvre des coffres pour trouver armes et armures. Un objet déjà possédé devient des points d'amélioration ⭐, utilisables sur n'importe quel équipement (dans l'inventaire du Chevalier).</p><div class="shop">${CH.map((c,i)=>{const t=Object.values(c.w).reduce((a,b)=>a+b,0);return `<div class="it">${chestIcon(c.m)}<div><b>${c.n}</b><em>${c.k} objet${c.k>1?"s":""}</em><small>${Object.keys(c.w).map(k=>RAR[k][0]+" "+(+(c.w[k]/t*100).toFixed(1))+" %").join(" · ")}</small></div><button class="bt" data-chest="${i}" ${g<c.p?"disabled":""}>🪙 ${c.p}</button></div>`}).join("")}</div>`;
  else h+=prof();
  d.innerHTML=h}
 $("#dj").onclick=e=>{const b=e.target.closest("button");if(!b||b.disabled)return;const x=b.dataset;
- if(x.v){GM.view=x.v;dj()}else if(x.buy)buy(x.buy);
+ if(x.v){GM.view=x.v;GM.reveal=null;dj()}else if(x.chest!=null)openChest(+x.chest);else if(x.up)upgrade(x.up);else if(x.ok){GM.reveal=null;dj()}
  else if(x.eq!=null){const q=x.eq.split(":");if(q[1])INV.eq[q[0]]=q[1];else delete INV.eq[q[0]];LS.set("astral_inv",INV);dj()}
  else if(b.id==="gmgo")gmGo();else if(b.id==="gmx"){GM.over=0;gmStop();dj()}};
 
