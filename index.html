@@ -1408,7 +1408,7 @@ function icon(it){const c=MC[it.m],o='stroke="#0b0e26" stroke-width="1.2" stroke
  else if(it.slot==="gants")b=`<rect x="5" y="12" width="9" height="15" fill="${c}"/><path d="M14 10h12q8 0 8 10t-8 10H14Z" fill="${c}"/>`;
  else b=`<path d="M12 5h12l1 19 10 5q3 2 3 7H9Z" fill="${c}"/>`;
  return `<svg viewBox="0 0 40 40" ${o} aria-hidden="true">${b}</svg>`}
-const CH=[{n:"Coffre en bois",k:1,p:150,m:"#8a5a3a",w:{c:60,u:28,r:9,e:2.5,l:.5}},{n:"Coffre de fer",k:2,p:450,m:"#aab4c8",w:{c:40,u:32,r:18,e:8,l:2}},{n:"Coffre royal",k:3,p:1100,m:"#ffc94d",w:{c:20,u:30,r:28,e:16,l:6}}];
+const CH=[{n:"Coffre en bois",k:1,p:150,m:"#8a5a3a",w:{c:60,u:28,r:9,e:2.5,l:.5}},{n:"Coffre de fer",k:1,p:450,m:"#aab4c8",w:{c:40,u:32,r:18,e:8,l:2}},{n:"Coffre royal",k:1,p:1100,m:"#ffc94d",w:{c:20,u:30,r:28,e:16,l:6}}];
 const chestIcon=m=>`<svg viewBox="0 0 48 48" stroke="#0b0e26" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M6 22Q6 8 24 8Q42 8 42 22Z" fill="${m}"/><rect x="6" y="22" width="36" height="18" rx="2" fill="${m}"/><path d="M6 22H42M16 9V40M32 9V40" stroke="#0007" fill="none"/><rect x="21" y="19" width="6" height="9" rx="1.5" fill="#ffe08a"/></svg>`;
 function roll(w){let t=0,x,r="c";for(const k in w)t+=w[k];x=Math.random()*t;for(const k in w){x-=w[k];if(x<0){r=k;break}}const pl=ITEMS.filter(i=>i.r===r);return pl[Math.floor(Math.random()*pl.length)]}
 function openChest(n){const c=CH[n];if(!c||(DJR.gold||0)<c.p)return;DJR.gold-=c.p;LS.set("astral_dj",DJR);const out=[];
